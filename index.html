@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Swell Taste Panel</title>
+<meta name="description" content="A 7-minute survey to help shape Swell before launch.">
+<meta name="theme-color" content="#f4cddb">
+<meta name="color-scheme" content="only light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600..800;1,8..60,500..700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<script>
+/* ============================================================
+   CONFIG: paste your Google Apps Script web-app URL here so every
+   response lands in your Google Sheet (see apps-script.gs).
+   Leave it empty and the survey runs in preview mode.
+   ============================================================ */
+window.SWELL_ENDPOINT = "https://script.google.com/macros/s/AKfycbyG63E6rQyNNm7RpyvNEzb_tDDFTg8poEKbz4qLGE8Y2mnReOEba0SrNwOf5J2soQKm/exec";
+</script>
+<style>
+:root{
+  color-scheme: only light;
+  --bg:#f4cddb; --bg-2:#efc2d3; --surface:#efc0d1; --surface-2:#ecb8cb;
+  --fg:#7d4558; --muted:#874f62; --line:rgba(255,255,255,.7);
+  --ink:#fff; --ink-2:#fff5f8; --on-ink:#c9577f; --pink:#c9577f; --stage:#f7d6e2;
+  --card:#fff7fa; --sel:#c9577f;
+  --blue:#b9cdee; --blue-ink:#2f5aa8;
+  --display:"Source Serif 4","Source Serif Pro",Georgia,serif;
+  --body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%;height:auto;display:block}
+button,input,textarea,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.06;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1 em,h2 em,h3 em{font-style:italic;font-weight:600;color:#fff}
+p{margin:0}
+[hidden]{display:none!important}
+.wrap{max-width:860px;margin:0 auto;padding-inline:clamp(16px,4vw,32px)}
+:focus-visible{outline:2.5px solid #fff;outline-offset:3px;border-radius:10px}
+
+/* header + section tabs (deck-style) */
+body::before{content:"";position:fixed;z-index:60;left:0;right:0;top:0;height:env(safe-area-inset-top,0px);background:var(--bg)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(244,205,219,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;height:64px;padding-inline:clamp(14px,3vw,28px)}
+.logo{flex:none;display:flex}.logo img{height:32px;width:auto}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;background:none;color:#fff;font:600 15px/1 var(--body);padding:10px 14px;border-radius:999px;white-space:nowrap;cursor:pointer;opacity:.62;transition:background .2s,color .2s,opacity .2s}
+.tabs button.done{opacity:.95}
+.tabs button.on{background:#fff;color:var(--pink);opacity:1}
+.tabs button:disabled{cursor:default}
+.prog{height:3px;background:rgba(255,255,255,.35)}.prog i{display:block;height:100%;width:0;background:#fff;transition:width .5s cubic-bezier(.22,1,.36,1)}
+@media (max-width:700px){.tabs{display:none}.top .count{margin-left:auto}}
+.count{flex:none;font:600 13.5px/1 var(--body);color:#fff;opacity:.9;white-space:nowrap}
+
+/* screens */
+main{padding-block:clamp(26px,5vw,56px) 40px}
+.screen{animation:in .45s cubic-bezier(.22,1,.36,1)}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+.kick{font:700 12.5px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#fff;opacity:.9;margin-bottom:12px}
+.sh{display:grid;gap:12px;margin-bottom:26px}
+.sh h2{font-size:clamp(34px,5vw,54px)}
+.sh p{color:var(--muted);font-size:18px;max-width:36em}
+
+/* hero / welcome */
+.hero{display:grid;gap:26px}
+.hero h1{font-size:clamp(46px,7.4vw,84px)}
+.hero .lead{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:32em}
+.stage{border-radius:28px;background:radial-gradient(ellipse 80% 70% at 50% 35%,#fff 0%,var(--stage) 72%);overflow:hidden}
+.hero .stage.lineup{display:flex;justify-content:center;align-items:flex-end;gap:clamp(4px,1.5vw,14px);padding:34px 12px 0}
+.hero .stage.lineup img{height:clamp(170px,30vw,300px);width:auto}
+.hero .stage.lineup img:nth-child(3){height:clamp(195px,34vw,340px)}
+.facts{display:flex;flex-wrap:wrap;gap:10px}
+.facts span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:var(--surface);font:600 14px/1 var(--body)}
+.facts span::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+
+/* question card */
+.q{background:var(--card);border-radius:24px;padding:clamp(18px,3vw,28px);margin-bottom:16px;box-shadow:0 18px 40px -30px rgba(80,20,40,.45);scroll-margin-top:90px;transition:box-shadow .25s}
+.q.err{box-shadow:0 0 0 2.5px var(--pink),0 18px 40px -30px rgba(80,20,40,.45)}
+.q .qt{font:700 clamp(19px,2.1vw,23px)/1.25 var(--display);letter-spacing:-.01em;color:#5e2f40}
+.q .qh{font-size:14.5px;color:var(--muted);margin-top:6px}
+.q .qb{margin-top:16px}
+.q .req{color:var(--pink)}
+.q .em{font:600 13.5px var(--body);color:var(--pink);margin-top:10px}
+.num{display:inline-grid;place-items:center;width:28px;height:28px;margin-right:10px;border-radius:50%;background:var(--bg);color:#fff;font:700 13px/1 var(--body);vertical-align:3px}
+
+/* choice pills */
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.opts.wide{grid-template-columns:1fr}
+.opt{position:relative;display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:13px 16px;border-radius:16px;border:2px solid transparent;background:#fbe6ee;cursor:pointer;font:500 15.5px/1.3 var(--body);color:#5e2f40;transition:transform .35s var(--spring),border-color .2s,background .2s;-webkit-tap-highlight-color:transparent}
+.opt:hover{background:#f8dce7}
+.opt:active{transform:scale(.97);transition-duration:.08s}
+.opt .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid #e6a9bf;background:#fff;transition:border .25s var(--spring)}
+.opt.multi .dot{border-radius:6px;display:grid;place-items:center}
+.opt[aria-pressed="true"]{border-color:var(--sel);background:#fff}
+.opt[aria-pressed="true"] .dot{border:6px solid var(--sel)}
+.opt.multi[aria-pressed="true"] .dot{border:0;background:var(--sel)}
+.opt.multi[aria-pressed="true"] .dot::after{content:"";width:9px;height:5px;border:2.5px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.other{margin-top:8px}
+
+/* scales */
+.scale{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:6px}
+.scale button{border:2px solid transparent;background:#fbe6ee;border-radius:12px;padding:12px 0;font:700 16px/1 var(--body);color:#5e2f40;cursor:pointer;transition:transform .3s var(--spring),background .2s,color .2s}
+.scale button:active{transform:scale(.9)}
+.scale button[aria-pressed="true"]{background:var(--sel);color:#fff}
+.ends{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:8px;gap:12px}
+@media (max-width:520px){.scale.n11{grid-template-columns:repeat(6,minmax(0,1fr))}.scale.n11 + .ends{display:none}}
+
+/* matrix */
+.mx{display:grid;gap:8px}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px;border-radius:14px;background:#fbe6ee}
+.mrow b{font-weight:600;font-size:15.5px;color:#5e2f40}.mrow small{display:block;color:var(--muted);font-size:12.5px}
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff}
+.seg button{border:0;background:none;padding:8px 12px;border-radius:999px;font:600 13px/1 var(--body);color:var(--muted);cursor:pointer;white-space:nowrap;transition:background .2s,color .2s}
+.seg button[aria-pressed="true"]{background:var(--sel);color:#fff}
+.mrow.miss{box-shadow:inset 0 0 0 2px var(--pink)}
+@media (max-width:620px){.mrow{grid-template-columns:1fr}.seg{width:100%}.seg button{flex:1;padding-inline:4px}}
+
+/* text */
+input[type=text],input[type=email],input[type=number],textarea{width:100%;border:2px solid #f3cfdc;background:#fff;border-radius:16px;padding:14px 16px;font:500 16px/1.4 var(--body);color:#5e2f40;outline:none;transition:border-color .2s}
+input:focus,textarea:focus{border-color:var(--sel)}
+textarea{min-height:110px;resize:vertical}
+.money{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.money label{display:grid;gap:6px;padding:12px;border-radius:16px;background:#fbe6ee;font:600 14.5px/1.3 var(--body);color:#5e2f40}
+.money .in{position:relative}.money .in span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--muted)}
+.money input{padding-left:28px}
+@media (max-width:560px){.money{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chips button{border:0;background:#fbe6ee;color:#5e2f40;border-radius:999px;padding:8px 12px;font:600 13.5px/1 var(--body);cursor:pointer}
+.chips button:active{transform:scale(.95)}
+
+/* image picks */
+.picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.picks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pick{position:relative;display:grid;grid-template-rows:auto auto;border:3px solid transparent;border-radius:20px;background:#fff;padding:0;overflow:hidden;cursor:pointer;text-align:left;transition:transform .35s var(--spring),border-color .2s,box-shadow .2s;box-shadow:0 10px 24px -20px rgba(80,20,40,.6)}
+.pick:hover{transform:translateY(-3px)}.pick:active{transform:scale(.97)}
+.pick .pi{height:190px;display:grid;place-items:center;padding:12px;background:#fff}
+.pick .pi img{max-height:166px;width:auto;max-width:100%;object-fit:contain}
+.pick .pi.duo{display:flex;align-items:flex-end;justify-content:center;gap:4px}
+.pick .pi.duo img{max-height:160px}
+.pick .pi.duo img+img{max-height:176px}
+.pick .pl{padding:10px 14px 12px;font:700 15px/1.2 var(--body);color:#5e2f40;background:#fbe6ee}
+.pick[aria-pressed="true"]{border-color:var(--sel);box-shadow:0 14px 30px -18px rgba(201,87,127,.7)}
+.pick .ck{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:var(--sel);display:grid;place-items:center;opacity:0;transform:scale(.4);transition:transform .35s var(--spring),opacity .2s}
+.pick[aria-pressed="true"] .ck{opacity:1;transform:none}
+.ck::after{content:"";width:12px;height:6px;border:3px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+
+/* spec (blind ingredient) cards */
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:440px){.specs{grid-template-columns:1fr}}
+.spec{position:relative;border:3px solid transparent;border-radius:20px;background:#fff;padding:16px 16px 14px;text-align:left;cursor:pointer;display:grid;gap:8px;align-content:start;transition:transform .35s var(--spring),border-color .2s;box-shadow:0 10px 24px -20px rgba(80,20,40,.6)}
+.spec:active{transform:scale(.97)}
+.spec h4{margin:0;font:700 22px/1 var(--display);color:#5e2f40}
+.spec dl{margin:0;display:grid;gap:6px}
+.spec dl div{display:grid;grid-template-columns:86px 1fr;gap:8px;font-size:13.5px;line-height:1.3;padding-top:6px;border-top:1px solid #f6dde6}
+.spec dt{color:var(--muted);font-weight:600}.spec dd{margin:0;color:#5e2f40;font-weight:600}
+.spec[aria-pressed="true"]{border-color:var(--sel)}
+.spec[aria-pressed="true"] .ck{opacity:1;transform:none}
+.spec .ck{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:var(--sel);display:grid;place-items:center;opacity:0;transform:scale(.4);transition:transform .35s var(--spring),opacity .2s}
+
+/* showcase blocks */
+.show{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.show.one{grid-template-columns:1fr}
+.show .stage{display:grid;place-items:center;padding:20px}
+.show .stage.blue{background:radial-gradient(ellipse 80% 70% at 50% 35%,#fff 0%,#dbe6f7 72%)}
+.show .stage img{max-height:300px;width:auto}
+.show figcaption{text-align:center;font:700 15px/1.3 var(--body);margin-top:10px;color:#5e2f40}
+.show figure{margin:0;display:grid;justify-items:center}
+.photo{border-radius:28px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(40,10,20,.45)}
+.photo img{width:100%}
+.concept{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:stretch;margin-bottom:18px}
+.concept .phones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.concept .phones img{border-radius:20px;box-shadow:0 20px 40px -24px rgba(40,10,20,.5)}
+@media (max-width:700px){.concept{grid-template-columns:1fr}.show{grid-template-columns:1fr 1fr}}
+.how{list-style:none;margin:0 0 18px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;counter-reset:h}
+.how li{counter-increment:h;position:relative;padding:14px 14px 14px 52px;border-radius:16px;background:var(--surface);font-size:15px;line-height:1.35}
+.how li b{display:block;color:#5e2f40}
+.how li::before{content:counter(h);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--pink);font:700 13px/1 var(--body)}
+@media (max-width:560px){.how{grid-template-columns:1fr}}
+.note{background:var(--surface);border-radius:18px;padding:16px 18px;font-size:15px;margin-bottom:18px}
+.note b{color:#5e2f40}
+
+/* nav buttons */
+.navb{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:26px}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 16px/1 var(--body);padding:17px 28px;border-radius:999px;border:0;background:var(--ink);color:var(--on-ink);cursor:pointer;transition:transform .35s var(--spring),background .2s;-webkit-tap-highlight-color:transparent;text-decoration:none}
+.btn:hover{background:var(--ink-2)}
+.btn:active{transform:scale(.94);transition-duration:.08s}
+.btn.alt{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.big{padding:20px 34px;font-size:17px}
+.btn[disabled]{opacity:.55;cursor:wait}
+.ripple{position:absolute;border-radius:50%;pointer-events:none;background:currentColor;opacity:.22;transform:scale(0);animation:ripple .55s ease-out forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+.small{font-size:14px;color:var(--muted)}
+
+/* thank you */
+.done-card{text-align:center;display:grid;gap:18px;justify-items:center;padding-block:30px}
+.done-card h1{font-size:clamp(48px,8vw,90px)}
+.done-card .stage{width:min(420px,100%);padding:24px 20px 0;display:flex;justify-content:center;align-items:flex-end;gap:6px}
+.done-card .stage img{height:240px;width:auto}
+.done-card .stage img+img{height:270px}
+.confetti{position:fixed;pointer-events:none;z-index:80;left:0;top:0}
+.confetti i{position:absolute;width:9px;height:14px;border-radius:2px;animation:conf 1.4s cubic-bezier(.2,.6,.3,1) forwards}
+@keyframes conf{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;background:#fff;color:var(--pink);font:700 14.5px/1.3 var(--body);padding:13px 18px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(40,10,20,.4);animation:in .3s}
+footer{padding:20px 0 40px;text-align:center;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="in">
+    <span class="logo"><img src="img/logo_white.svg" alt="Swell"></span>
+    <nav class="tabs" id="tabs" aria-label="Survey sections"></nav>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="prog"><i id="bar"></i></div>
+</header>
+<main class="wrap" id="app" aria-live="polite"></main>
+<footer>Swell · drinkswell — livewell · Your answers are anonymous unless you choose to leave an email.</footer>
+
+<script>
+(function(){
+"use strict";
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+/* ---------- the six shakes for the head-to-head questions ---------- */
+const SHAKES = {
+  swell:   {name:"Swell",                       imgs:["img/s30_choc.webp","img/s50_choc.webp"], size:"14oz", cal:"170", pro:"30g", sug:"4g total / 0g added", swt:"Allulose, monk fruit, stevia, a little sucralose", extra:"Collagen peptides, iron (25% DV), lactose-free"},
+  alani:   {name:"Alani Nu Protein Shake",      imgs:["img/c_alani.webp"],    size:"12oz", cal:"160", pro:"30g", sug:"3g total / 2g added", swt:"Sucralose, ace-K", extra:"None"},
+  vital:   {name:"Vital Proteins Collagen & Protein", imgs:["img/c_vital.webp"], size:"11oz", cal:"Not listed", pro:"30g (10g collagen)", sug:"0g added", swt:"No artificial sweeteners", extra:"10g collagen"},
+  boost:   {name:"Boost Women",                 imgs:["img/c_boost.webp"],    size:"8oz",  cal:"180", pro:"15g", sug:"Not listed", swt:"Sucralose (plus carrageenan)", extra:"Iron"},
+  david:   {name:"David Protein Milkshake",     imgs:["img/c_david.webp"],    size:"12oz", cal:"140–150", pro:"30g", sug:"Under 1g", swt:"Sucralose, ace-K", extra:"None"},
+  fairlife:{name:"fairlife Core Power 26g",     imgs:["img/c_fairlife.webp"], size:"14oz", cal:"170", pro:"26g", sug:"5g total / 0g added", swt:"Monk fruit, stevia, ace-K, sucralose", extra:"None"}
+};
+const LOOK_ORDER = shuffle(Object.keys(SHAKES));
+const SPEC_ORDER = shuffle(Object.keys(SHAKES));
+const LETTERS = "ABCDEF";
+
+/* ---------- survey definition ---------- */
+const S = [
+ {id:"you", tab:"About you", kick:"Part 1 of 10", title:"First, a little <em>about you</em>", sub:"So we know who's saying what. Nothing here identifies you.", qs:[
+  {id:"gender", t:"I am a…", type:"single", req:1, o:["Woman","Man","Non-binary","Prefer not to say"]},
+  {id:"age", t:"How old are you?", type:"single", req:1, o:["Under 18","18–20","21–24","25–29","30–34","35+"]},
+  {id:"life", t:"What best describes you right now?", type:"single", req:1, o:["College student","High school student","Working full-time","Working part-time","Stay-at-home parent","Other"], other:1},
+  {id:"city", t:"What city and state do you live in?", h:"Helps us decide where the first Swell fridges go.", type:"text", req:1, ph:"e.g. Provo, UT"},
+  {id:"workout", t:"How often do you work out?", type:"single", req:1, o:["Rarely or never","1–2 times a week","3–4 times a week","5+ times a week"]},
+  {id:"workout_type", t:"What kind of workouts do you do?", h:"Pick all that apply.", type:"multi", o:["Weightlifting","Pilates or reformer","Barre","Running","Yoga","Group classes (HIIT, Orangetheory, F45)","Cycling or spin","Team sports","Walking or hiking","None"]},
+  {id:"goal", t:"What's your main health goal right now?", type:"single", req:1, o:["Lose weight or stay lean","Build muscle","Tone up","Maintain and feel good","More energy","Not focused on it"]}
+ ]},
+ {id:"habits", tab:"Your shakes", kick:"Part 2 of 10", title:"Your protein <em>habits</em>", sub:"Powder or ready-to-drink bottles both count.", qs:[
+  {id:"freq", t:"How often do you drink protein shakes?", type:"single", req:1, o:["Never","A few times a year","1–3 times a month","1–2 times a week","3–5 times a week","Every day"]},
+  {id:"brands", t:"Which ones have you bought in the last 6 months?", h:"Pick all that apply.", type:"multi", o:["fairlife Core Power","fairlife Nutrition Plan","Premier Protein","Alani Nu","David","Vital Proteins","Muscle Milk","OWYN","Orgain","Slate","Store brand (Kirkland, Great Value…)","Protein powder I mix myself","None"], other:1},
+  {id:"where_buy", t:"Where do you usually buy them?", h:"Pick all that apply.", type:"multi", o:["Costco or Sam's","Walmart","Target","Grocery store","Gas station","Amazon","At the gym or studio","Brand website","I don't buy them"]},
+  {id:"when", t:"When would you most likely drink one?", h:"Pick all that apply.", type:"multi", req:1, o:["Breakfast or on the way out","Before a workout","After a workout","Afternoon snack","Between classes or meetings","Dessert or a sweet craving","Mixed into coffee","Instead of a meal"]},
+  {id:"like", t:"What do you LIKE about protein shakes?", h:"Pick all that apply.", type:"multi", req:1, o:["Easy and convenient","Keeps me full","Helps me hit my protein","Low calorie","Tastes like a treat","Helps recovery","Cheaper than a meal","Nothing really"], other:1},
+  {id:"dislike", t:"What do you DISLIKE about protein shakes?", h:"Pick all that apply.", type:"multi", req:1, o:["Chalky or gritty","Artificial aftertaste","Too sweet","Thin or watery","Bloating or upset stomach","Too many ingredients I can't pronounce","Too expensive","Boring or ugly packaging","Never cold when I want one","Doesn't keep me full","Too many calories"], other:1},
+  {id:"dealbreaker", t:"Which ONE would make you never buy a shake again?", type:"single", req:1, o:["Bad taste or aftertaste","Bloating or stomach issues","Price","Ingredient list","Sugar content","Not enough protein","Packaging looks cheap or medical"]},
+  {id:"taste_wish", t:"How do you wish protein shakes tasted?", h:"Tap any that fit, then add your own words.", type:"textarea", req:1, chips:["Like a real milkshake","Thicker and creamier","Less sweet","Like an iced latte","Like melted ice cream","Light and refreshing","No aftertaste at all"], ph:"Describe your perfect shake…"},
+  {id:"flavor_first", t:"Swell launches in 4 flavors. Which would you try first?", type:"single", req:1, o:["Chocolate","Vanilla","Cookie Butter","Matcha"]},
+  {id:"flavor_wish", t:"A flavor you wish existed?", type:"text", ph:"e.g. Strawberry cheesecake"}
+ ]},
+ {id:"ingredients", tab:"Ingredients", kick:"Part 3 of 10", title:"What's <em>inside</em> matters?", sub:"Tell us what you actually look for on the label, and what you don't care about at all.", qs:[
+  {id:"ing", t:"How much do you care about each of these?", type:"matrix", req:1, cols:["Don't care","Nice to have","Must have"], rows:[
+    ["ing_protein","High protein (30g+)"],["ing_lowcal","Low calories"],["ing_lowsugar","Low sugar"],["ing_noartificial","No artificial sweeteners"],["ing_short","Short, simple ingredient list"],["ing_lactose","Lactose-free (no bloating)"],["ing_collagen","Collagen peptides","hair, skin, nails, joints"],["ing_iron","Iron + vitamin C","energy, fewer tired days"],["ing_probiotic","Probiotics","gut health"],["ing_caffeine","Caffeine","a pre-workout or coffee swap"],["ing_creamy","Thick, creamy texture"],["ing_shelf","Doesn't need the fridge until opened"]]},
+  {id:"avoid", t:"Any of these make you put a shake back on the shelf?", h:"Pick all that apply.", type:"multi", req:1, o:["Sucralose","Ace-K","Stevia","Monk fruit","Allulose","Carrageenan","Added sugar","Gums","Seed oils","Dairy","None of these","I don't know what most of these are"]},
+  {id:"protein_amt", t:"How much protein do you want in one bottle?", type:"single", req:1, o:["15–20g","25–30g","40g","50g","Depends on the day"]},
+  {id:"caffeine_opt", t:"Would you want a caffeinated version?", type:"single", req:1, o:["Yes, caffeinated please","No, keep it caffeine-free","Offer both and I'll choose"]}
+ ]},
+ {id:"look", tab:"Look test", kick:"Part 4 of 10", title:"Judge them by <em>the look</em>", sub:"Don't think about taste, price or ingredients. Just the packaging.", qs:[
+  {id:"look_pick", t:"Based ONLY on how it looks, which one would you buy?", type:"imgpick", req:1, items:"look"},
+  {id:"look_why", t:"What made you pick that one?", type:"text", req:1, ph:"One sentence is perfect"},
+  {id:"look_worst", t:"Which one looks the LEAST appealing?", type:"imgpick", req:1, items:"look"}
+ ]},
+ {id:"label", tab:"Label test", kick:"Part 5 of 10", title:"Now judge them by <em>the label</em>", sub:"Brand names are hidden. Look only at what's in each bottle.", qs:[
+  {id:"spec_pick", t:"Based ONLY on what's inside, which one would you buy?", type:"specpick", req:1},
+  {id:"spec_why", t:"What made you pick that one?", type:"text", req:1, ph:"One sentence is perfect"}
+ ]},
+ {id:"brand", tab:"Brand", kick:"Part 6 of 10", title:"Meet <em>Swell</em>", sub:"A premium protein shake that tastes like a milkshake. Swell 30g comes in the pink 14oz bottle; Swell 50g comes in the bigger light-blue 16oz bottle. Both have collagen peptides, iron + vitamin C, and zero lactose.", show:"brand", qs:[
+  {id:"first_word", t:"First impression, in one word?", type:"text", req:1, ph:"One word"},
+  {id:"words", t:"Which words describe how Swell looks?", h:"Pick all that apply.", type:"multi", req:1, o:["Premium","Clean","Aesthetic","Feminine","Cute","Girly","Healthy","Fun","Trustworthy","Expensive-looking","Gym-ready","Luxury","Cheap","Boring","Childish","Medical","Too pink"]},
+  {id:"r_premium", t:"How premium does Swell look?", type:"scale", n:10, req:1, lo:"Cheap", hi:"Very premium"},
+  {id:"r_appetite", t:"How tasty does it look?", type:"scale", n:10, req:1, lo:"Not at all", hi:"I want one now"},
+  {id:"r_forme", t:"How much does Swell feel made for someone like you?", type:"scale", n:10, req:1, lo:"Not for me", hi:"Made for me"},
+  {id:"colors", t:"How do you feel about the colors?", type:"matrix", req:1, cols:["Don't like","It's fine","Love it"], rows:[["color_pink","Pink bottle (30g)"],["color_blue","Light-blue bottle (50g)"],["color_together","Pink and blue together as a brand"]]},
+  {id:"bottle_pick", t:"Which bottle would you grab?", type:"single", req:1, o:["Pink · 30g · 14oz","Blue · 50g · 16oz","Either, depends on the day"]},
+  {id:"public", t:"Would you carry the pink bottle in public, like at the gym or in class?", type:"single", req:1, o:["Yes, proudly","Yes, it's fine","I'd rather carry the blue one","No"]},
+  {id:"who_for", t:"Who do you think Swell is for?", type:"single", req:1, o:["Mostly women","Mostly men","Everyone"]},
+  {id:"name_fit", t:"How much do you like the name \"Swell\"?", type:"scale", n:5, req:1, lo:"Dislike", hi:"Love it"},
+  {id:"name_pick", t:"If it had a different name, which would you like best?", type:"single", req:1, o:["Swell","Blush","Plush","None of these"], other:1, otherLabel:"Suggest a name"},
+  {id:"change", t:"If you could change ONE thing about the look, what would it be?", type:"text", ph:"Color, bottle shape, logo, font…"}
+ ]},
+ {id:"price", tab:"Pricing", kick:"Part 7 of 10", title:"What's it <em>worth</em> to you?", sub:"Picture a 14oz Swell bottle: 30g protein, 170 calories, tastes like a milkshake, with collagen, iron and zero lactose. There are no right answers.", qs:[
+  {id:"vw", t:"At what price per bottle would Swell be…", h:"Type a dollar amount for each.", type:"money", req:1, f:[["vw_cheap","…so cheap you'd doubt the quality?"],["vw_bargain","…a great deal?"],["vw_pricey","…getting expensive, but you'd still buy?"],["vw_toomuch","…too expensive to consider?"]]},
+  {id:"box_price", t:"The most you'd pay for a 12-bottle box delivered to your door?", type:"single", req:1, o:["Under $30","$30–39","$40–49","$50–59","$60+"]},
+  {id:"single_price", t:"The most you'd pay for ONE cold Swell from a fridge at your gym, studio or campus?", type:"single", req:1, o:["Under $3","$3–3.99","$4–4.99","$5–5.99","$6–6.99","$7+"]},
+  {id:"intent", t:"If one cold Swell was $5, or $4.25 each when you buy a 12-box, how likely are you to buy?", type:"single", req:1, o:["Definitely would","Probably would","Might or might not","Probably not","Definitely not"]},
+  {id:"vs_fairlife", t:"Compared with fairlife Core Power, how much more would you pay for Swell if you liked it more?", type:"single", req:1, o:["Nothing more, same price or I'd buy fairlife","Up to 25¢ more","Up to 50¢ more","Up to $1 more","$1+ more"]}
+ ]},
+ {id:"fridges", tab:"Membership", kick:"Part 8 of 10", title:"Swell <em>fridges</em> + membership", sub:"Here's the idea. Tell us honestly if you'd use it.", show:"fridge", qs:[
+  {id:"mem_interest", t:"How interested are you in a Swell membership?", type:"scale", n:5, req:1, lo:"Not at all", hi:"Sign me up"},
+  {id:"mem_price", t:"What's the most you'd pay per month for the membership?", h:"The membership gets you member pricing and rewards. Bottles are charged as you take them.", type:"single", req:1, o:["$0, only if it's free","$2.99","$4.99","$9.99","$14.99","$19.99+"]},
+  {id:"mem_value", t:"What would make the membership worth it?", h:"Pick up to 3.", type:"multi", max:3, req:1, o:["Cheaper price per bottle","A free Swell every so often","Points toward free Swells","Free shipping on boxes","First access to new flavors","Members-only flavors","Swell merch","Fridge access near me"], other:1},
+  {id:"per_week", t:"If a fridge was right where you already go, how many Swells would you grab per week?", type:"single", req:1, o:["0","1","2–3","4–5","6+"]},
+  {id:"locations", t:"Where should Swell fridges go?", h:"Pick up to 5.", type:"multi", max:5, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","High school","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
+  {id:"loc_specific", t:"Name a specific place near you where you'd want a Swell fridge.", type:"text", ph:"e.g. The BYU Wilk, Club Pilates Lehi"},
+  {id:"sub_box", t:"Would you subscribe to a monthly build-your-own Swell box delivered to your door?", type:"single", req:1, o:["Yes","Maybe, if there's a discount","No, I'd rather buy as I go"]}
+ ]},
+ {id:"share", tab:"Share", kick:"Part 9 of 10", title:"Would you <em>show it off</em>?", sub:"Say Swell tasted amazing and made you feel good.", qs:[
+  {id:"post", t:"Would you post about Swell?", type:"single", req:1, o:["Definitely","Probably","Maybe","Probably not","No, I don't post brands"]},
+  {id:"post_where", t:"Where would you post it?", h:"Pick all that apply.", type:"multi", o:["Instagram story","Instagram post","TikTok","Snapchat","Pinterest","BeReal","Group chat","Nowhere"]},
+  {id:"aesthetic", t:"The bottle is something I'd want to be seen with.", type:"scale", n:5, req:1, lo:"Disagree", hi:"Agree"},
+  {id:"nps", t:"How likely are you to recommend Swell to a friend?", h:"0 = not at all likely, 10 = extremely likely.", type:"scale", n:11, start:0, req:1, lo:"Not at all", hi:"Extremely"},
+  {id:"influence", t:"What actually gets you to try a new drink?", h:"Pick up to 3.", type:"multi", max:3, req:1, o:["A friend recommends it","TikTok creators","Instagram influencers","My gym or Pilates instructor","Seeing it in a store","A free sample","Reviews","A good deal or discount"]},
+  {id:"ambassador", t:"Would you want to be a Swell ambassador and earn free shakes or commission?", type:"single", req:1, o:["Yes!","Maybe","No"]},
+  {id:"handle", t:"Your Instagram or TikTok handle (optional)", h:"Only if you said yes or maybe above.", type:"text", ph:"@yourhandle", showIf:a=>a.ambassador==="Yes!"||a.ambassador==="Maybe"}
+ ]},
+ {id:"final", tab:"Last word", kick:"Part 10 of 10", title:"Your <em>last word</em>", sub:"This is the most useful part for us. Be as honest as you like.", qs:[
+  {id:"thoughts", t:"Any other thoughts on Swell?", h:"Love it, hate it, what would make you buy it on day one?", type:"textarea", req:1, ph:"Type anything…"},
+  {id:"email", t:"Want early access and a free sample at launch? Leave your email.", h:"Optional. We'll only use it for Swell launch news.", type:"email", ph:"you@email.com"}
+ ]}
+];
+
+/* ---------- state ---------- */
+const KEY = "swell-survey-v1";
+let A = {}; let step = -1; const t0 = Date.now(); let submitted = false;
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && s.A && !s.submitted) { A = s.A; } } catch(e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({A, submitted})); } catch(e) {} };
+
+/* ---------- header ---------- */
+const tabs = $("#tabs");
+tabs.innerHTML = S.map((s,i) => `<button type="button" data-i="${i}">${esc(s.tab)}</button>`).join("");
+tabs.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const i = +b.dataset.i; if (i <= maxStep) go(i); });
+let maxStep = -1;
+function header(){
+  [...tabs.children].forEach((b,i) => { b.classList.toggle("on", i===step); b.classList.toggle("done", i<=maxStep && i!==step); b.disabled = i>maxStep; });
+  const on = tabs.children[step]; if (on) on.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  const pct = step < 0 ? 0 : submitted ? 100 : Math.round((step)/(S.length)*100);
+  $("#bar").style.width = pct + "%";
+  $("#count").textContent = step < 0 ? "About 7 minutes" : submitted ? "Done" : `${step+1} of ${S.length}`;
+}
+
+/* ---------- renderers ---------- */
+function optBtn(q, label, multi){
+  const cur = A[q.id]; const on = multi ? Array.isArray(cur) && cur.includes(label) : cur === label;
+  return `<button type="button" class="opt${multi?" multi":""}" aria-pressed="${on}" data-q="${q.id}" data-v="${esc(label)}"><span class="dot"></span><span>${esc(label)}</span></button>`;
+}
+function renderQ(q, n){
+  if (q.showIf && !q.showIf(A)) return "";
+  let b = "";
+  const T = q.type;
+  if (T==="single"||T==="multi"){
+    const multi = T==="multi";
+    const opts = q.other ? q.o.concat([q.otherLabel||"Other"]) : q.o;
+    b = `<div class="opts${opts.length<=3?" wide":""}">${opts.map(o=>optBtn(q,o,multi)).join("")}</div>`;
+    if (q.other){
+      const ol = q.otherLabel||"Other"; const cur = A[q.id];
+      const show = multi ? Array.isArray(cur)&&cur.includes(ol) : cur===ol;
+      b += `<input type="text" class="other" data-other="${q.id}" placeholder="Tell us…" value="${esc(A[q.id+"_other"]||"")}" ${show?"":"hidden"}>`;
+    }
+  } else if (T==="scale"){
+    const st = q.start ?? 1; let bs = "";
+    for (let i=st;i<st+q.n;i++) bs += `<button type="button" aria-pressed="${A[q.id]===i}" data-scale="${q.id}" data-v="${i}">${i}</button>`;
+    b = `<div class="scale n${q.n}" style="--n:${q.n}">${bs}</div><div class="ends"><span>${esc(q.lo)}</span><span>${esc(q.hi)}</span></div>`;
+  } else if (T==="matrix"){
+    b = `<div class="mx">${q.rows.map(r=>`<div class="mrow" data-row="${r[0]}"><div><b>${esc(r[1])}</b>${r[2]?`<small>${esc(r[2])}</small>`:""}</div><div class="seg">${q.cols.map(c=>`<button type="button" aria-pressed="${A[r[0]]===c}" data-mx="${r[0]}" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div></div>`).join("")}</div>`;
+  } else if (T==="text"||T==="email"){
+    b = `<input type="${T==="email"?"email":"text"}" data-text="${q.id}" placeholder="${esc(q.ph||"")}" value="${esc(A[q.id]||"")}" ${T==="email"?'autocomplete="email" inputmode="email"':""}>`;
+  } else if (T==="textarea"){
+    b = (q.chips?`<div class="chips">${q.chips.map(c=>`<button type="button" data-chip="${q.id}">${esc(c)}</button>`).join("")}</div>`:"") + `<textarea data-text="${q.id}" placeholder="${esc(q.ph||"")}">${esc(A[q.id]||"")}</textarea>`;
+  } else if (T==="money"){
+    b = `<div class="money">${q.f.map(f=>`<label>${esc(f[1])}<span class="in"><span>$</span><input type="number" inputmode="decimal" min="0" step="0.25" data-text="${f[0]}" value="${esc(A[f[0]]??"")}" placeholder="0.00"></span></label>`).join("")}</div>`;
+  } else if (T==="imgpick"){
+    b = `<div class="picks">${LOOK_ORDER.map(k=>{const s=SHAKES[k];return `<button type="button" class="pick" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><span class="pi${s.imgs.length>1?" duo":""}">${s.imgs.map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</span><span class="pl">${esc(s.name)}</span></button>`;}).join("")}</div>`;
+  } else if (T==="specpick"){
+    b = `<div class="specs">${SPEC_ORDER.map((k,i)=>{const s=SHAKES[k];return `<button type="button" class="spec" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><h4>Shake ${LETTERS[i]}</h4><dl><div><dt>Size</dt><dd>${esc(s.size)}</dd></div><div><dt>Calories</dt><dd>${esc(s.cal)}</dd></div><div><dt>Protein</dt><dd>${esc(s.pro)}</dd></div><div><dt>Sugar</dt><dd>${esc(s.sug)}</dd></div><div><dt>Sweetened with</dt><dd>${esc(s.swt)}</dd></div><div><dt>Extras</dt><dd>${esc(s.extra)}</dd></div></dl></button>`;}).join("")}</div>`;
+  }
+  return `<div class="q" id="q-${q.id}" data-qid="${q.id}"><div class="qt"><span class="num">${n}</span>${esc(q.t)}${q.req?' <span class="req" aria-label="required">*</span>':""}</div>${q.h?`<p class="qh">${esc(q.h)}</p>`:""}<div class="qb">${b}</div><p class="em" hidden></p></div>`;
+}
+
+function showcase(kind){
+  if (kind==="brand") return `<div class="show"><figure class="stage"><img src="img/s30_choc.webp" alt="Swell 30g chocolate, pink 14oz bottle"></figure><figure class="stage blue"><img src="img/s50_choc.webp" alt="Swell 50g chocolate, light-blue 16oz bottle"></figure></div>
+  <div class="show"><div class="photo"><img src="img/ugc_reformer.webp" alt="Swell at a reformer Pilates class" loading="lazy"></div><div class="photo"><img src="img/ugc_vanilla.webp" alt="Swell 30g vanilla in hand" loading="lazy"></div></div>`;
+  if (kind==="fridge") return `<div class="concept"><div class="photo"><img src="img/fridge.webp" alt="A Swell fridge inside a Pilates studio"></div><div class="phones"><img src="img/app_pass.webp" alt="Swell member pass with QR code"><img src="img/app_map.webp" alt="Map of nearby Swell fridges"></div></div>
+  <ol class="how"><li><b>Join in the Swell app</b>Card on file, a small monthly membership fee.</li><li><b>Find a fridge</b>At studios, gyms, campuses and more, on a map.</li><li><b>Scan to open</b>Grab what you want; you're charged per bottle at member pricing.</li><li><b>Earn points</b>Every bottle adds up to a free Swell. Boxes can ship to your door too.</li></ol>`;
+  return "";
+}
+
+function render(){
+  const app = $("#app");
+  if (submitted) return renderDone();
+  if (step < 0){
+    app.innerHTML = `<section class="screen hero">
+      <div><p class="kick">Swell taste panel</p><h1>Help us build the shake <em>you'd actually want.</em></h1></div>
+      <p class="lead">Swell is a premium protein shake that tastes like a milkshake. Before we launch, we want your honest take on the look, the taste you're after, the price, and where you'd want to grab one.</p>
+      <div class="facts"><span>About 7 minutes</span><span>10 quick parts</span><span>Anonymous</span><span>Free sample for early access</span></div>
+      <div class="stage lineup"><img src="img/s30_matcha.webp" alt=""><img src="img/s30_van.webp" alt=""><img src="img/s50_choc.webp" alt="Swell bottles: pink 30g and light-blue 50g"><img src="img/s30_choc.webp" alt=""><img src="img/s30_cbutter.webp" alt=""></div>
+      <div><button class="btn big" id="start" type="button">${Object.keys(A).length?"Pick up where you left off":"Start the survey"} →</button></div>
+    </section>`;
+    $("#start").onclick = () => go(0);
+    header(); return;
+  }
+  const s = S[step]; let n = 0;
+  const qs = s.qs.map(q => { if (q.showIf && !q.showIf(A)) return ""; n++; return renderQ(q, n); }).join("");
+  app.innerHTML = `<section class="screen">
+    <div class="sh"><p class="kick">${esc(s.kick)}</p><h2>${s.title}</h2><p>${esc(s.sub)}</p></div>
+    ${s.show?showcase(s.show):""}
+    <div id="qs">${qs}</div>
+    <div class="navb"><button class="btn alt" type="button" id="back">← Back</button><button class="btn big" type="button" id="next">${step===S.length-1?"Submit":"Next"} →</button></div>
+  </section>`;
+  $("#back").onclick = () => go(step-1);
+  $("#next").onclick = next;
+  header();
+}
+
+/* ---------- interactions ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  ripple(b, e);
+  const qid = b.dataset.q, d = b.dataset;
+  if (qid){
+    const q = findQ(qid); const v = d.v;
+    if (q.type==="multi"){
+      let cur = Array.isArray(A[qid]) ? A[qid].slice() : [];
+      const exclusive = /^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really)$/.test(v);
+      if (cur.includes(v)) cur = cur.filter(x=>x!==v);
+      else {
+        if (exclusive) cur = [v]; else cur = cur.filter(x=>!/^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really)$/.test(x));
+        if (q.max && cur.length >= q.max){ toast(`Pick up to ${q.max}. Tap one to remove it first.`); return; }
+        if (!exclusive) cur.push(v);
+      }
+      A[qid] = cur;
+      b.closest(".opts").querySelectorAll(".opt").forEach(x => x.setAttribute("aria-pressed", cur.includes(x.dataset.v)));
+      const ot = document.querySelector(`[data-other="${qid}"]`); if (ot) ot.hidden = !cur.includes(q.otherLabel||"Other");
+    } else {
+      A[qid] = v;
+      b.closest(".opts").querySelectorAll(".opt").forEach(x => x.setAttribute("aria-pressed", x===b));
+      const ot = document.querySelector(`[data-other="${qid}"]`); if (ot){ ot.hidden = v !== (q.otherLabel||"Other"); if (!ot.hidden) ot.focus(); }
+      if (qid==="ambassador") rerenderKeep();
+    }
+    clearErr(qid); save(); return;
+  }
+  if (d.scale){ A[d.scale] = +d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.scale); save(); return; }
+  if (d.mx){ A[d.mx] = d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); b.closest(".mrow").classList.remove("miss"); const qd=b.closest(".q"); if (qd && !qd.querySelector(".mrow.miss")) clearErr(qd.dataset.qid); save(); return; }
+  if (d.pick){ A[d.pick] = d.v; b.parentElement.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.pick); save(); return; }
+  if (d.chip){ const ta = document.querySelector(`textarea[data-text="${d.chip}"]`); const cur = ta.value.trim(); if (!cur.includes(b.textContent)){ ta.value = cur ? cur.replace(/[.\s]*$/,"") + ", " + b.textContent.toLowerCase() : b.textContent; } A[d.chip] = ta.value; clearErr(d.chip); save(); return; }
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.text){ A[t.dataset.text] = t.type==="number" ? (t.value===""?"":+t.value) : t.value; const qd=t.closest(".q"); if (qd) clearErr(qd.dataset.qid); save(); }
+  if (t.dataset.other){ A[t.dataset.other+"_other"] = t.value; save(); }
+});
+function findQ(id){ for (const s of S) for (const q of s.qs) if (q.id===id) return q; }
+function rerenderKeep(){ const y = scrollY; render(); scrollTo(0,y); }
+function clearErr(id){ const el = document.getElementById("q-"+id); if (!el) return; el.classList.remove("err"); const m = el.querySelector(".em"); if (m) m.hidden = true; }
+
+function missing(q){
+  if (!q.req || (q.showIf && !q.showIf(A))) return null;
+  const v = A[q.id];
+  if (q.type==="multi") return Array.isArray(v)&&v.length ? null : "Pick at least one.";
+  if (q.type==="matrix") return q.rows.every(r=>A[r[0]]) ? null : "Answer every row.";
+  if (q.type==="money"){ const vals = q.f.map(f=>A[f[0]]); return vals.every(x=>x!==""&&x!=null&&!isNaN(x)) ? null : "Fill in all four prices."; }
+  if (q.type==="text"||q.type==="textarea") return v && String(v).trim() ? null : "Add a quick answer.";
+  return v!==undefined && v!=="" ? null : "Pick one.";
+}
+function next(){
+  const s = S[step]; let first = null;
+  for (const q of s.qs){
+    const m = missing(q); const el = document.getElementById("q-"+q.id); if (!el) continue;
+    if (m){ el.classList.add("err"); const em = el.querySelector(".em"); em.textContent = m; em.hidden = false; if (q.type==="matrix") q.rows.forEach(r=>{ if(!A[r[0]]) el.querySelector(`[data-row="${r[0]}"]`).classList.add("miss"); }); first = first || el; }
+  }
+  if (first){ first.scrollIntoView({behavior:"smooth",block:"center"}); toast("A few answers are missing."); return; }
+  if (step === S.length-1) return submit();
+  go(step+1);
+}
+function go(i){ step = Math.max(-1, Math.min(S.length-1, i)); maxStep = Math.max(maxStep, step); render(); scrollTo(0,0); }
+
+/* ---------- submit ---------- */
+function flatten(){
+  const row = {submitted_at:new Date().toISOString(), seconds:Math.round((Date.now()-t0)/1000), look_order:LOOK_ORDER.join(" "), label_order:SPEC_ORDER.map((k,i)=>LETTERS[i]+"="+k).join(" ")};
+  for (const s of S) for (const q of s.qs){
+    if (q.type==="matrix") q.rows.forEach(r=>row[r[0]] = A[r[0]]||"");
+    else if (q.type==="money") q.f.forEach(f=>row[f[0]] = A[f[0]]??"");
+    else if (q.type==="imgpick"||q.type==="specpick") row[q.id] = A[q.id] ? SHAKES[A[q.id]].name : "";
+    else { const v = A[q.id]; row[q.id] = Array.isArray(v) ? v.join("; ") : (v ?? ""); if (q.other) row[q.id+"_other"] = A[q.id+"_other"]||""; }
+  }
+  return row;
+}
+async function submit(){
+  const btn = $("#next"); btn.disabled = true; btn.textContent = "Sending…";
+  const row = flatten(); const url = (window.SWELL_ENDPOINT||"").trim();
+  let ok = true;
+  if (url){
+    try { await fetch(url, {method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(row)}); }
+    catch(e){ ok = false; }
+  }
+  if (!ok){ btn.disabled = false; btn.textContent = "Submit →"; toast("Couldn't send. Check your connection and tap Submit again."); return; }
+  submitted = true; window.__swellPreview = !url; save(); try { localStorage.removeItem(KEY); } catch(e) {}
+  render(); confetti();
+}
+function renderDone(){
+  $("#app").innerHTML = `<section class="screen done-card">
+    <p class="kick">All done</p><h1>Thank you, <em>truly.</em></h1>
+    <p class="lead" style="color:var(--muted);max-width:30em">Your answers go straight into how Swell looks, tastes and gets to you. ${A.email?"We'll email you when early access opens.":""}</p>
+    <div class="stage"><img src="img/s30_van.webp" alt=""><img src="img/s50_choc.webp" alt=""></div>
+    ${window.__swellPreview?'<p class="small">Preview mode: this response was not recorded. Connect the Google Sheet to start collecting.</p>':""}
+  </section>`;
+  header();
+}
+
+/* ---------- feel ---------- */
+function ripple(b, e){
+  if (!b.classList.contains("btn")) return;
+  const r = b.getBoundingClientRect(), s = Math.max(r.width, r.height)*2, i = document.createElement("span");
+  i.className = "ripple"; i.style.cssText = `width:${s}px;height:${s}px;left:${(e.clientX||r.left+r.width/2)-r.left-s/2}px;top:${(e.clientY||r.top+r.height/2)-r.top-s/2}px`;
+  b.appendChild(i); setTimeout(()=>i.remove(), 600);
+}
+function confetti(){
+  const c = document.createElement("div"); c.className = "confetti"; c.style.left = innerWidth/2+"px"; c.style.top = innerHeight/3+"px";
+  const cols = ["#fff","#c9577f","#b9cdee","#f7d6e2","#7d4558"];
+  for (let i=0;i<70;i++){ const p = document.createElement("i"); const a = Math.random()*Math.PI*2, d = 140+Math.random()*320;
+    p.style.cssText = `background:${cols[i%cols.length]};--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d+200}px;--r:${Math.random()*720-360}deg`; c.appendChild(p); }
+  document.body.appendChild(c); setTimeout(()=>c.remove(), 1600);
+}
+let tt; function toast(m){ document.querySelectorAll(".toast").forEach(x=>x.remove()); const t = document.createElement("div"); t.className="toast"; t.role="status"; t.textContent=m; document.body.appendChild(t); clearTimeout(tt); tt=setTimeout(()=>t.remove(), 2600); }
+
+render();
+})();
+</script>
+</body>
+</html>
