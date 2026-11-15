@@ -248,29 +248,29 @@ const S = [
  {id:"you", tab:"About you", kick:"Part 1 of 10", title:"First, a little <em>about you</em>", sub:"So we know who's saying what. Nothing here identifies you.", qs:[
   {id:"gender", t:"I am a…", type:"single", req:1, o:["Woman","Man","Non-binary","Prefer not to say"]},
   {id:"age", t:"How old are you?", type:"single", req:1, o:["Under 18","18–20","21–24","25–29","30–34","35+"]},
-  {id:"life", t:"What best describes you right now?", type:"single", req:1, o:["College student","High school student","Working full-time","Working part-time","Stay-at-home parent","Other"], other:1},
+  {id:"life", t:"What describes you right now?", h:"Check all that apply.", type:"multi", req:1, o:["College student","High school student","Working full-time","Working part-time","Stay-at-home parent","Other"], other:1},
   {id:"city", t:"What city and state do you live in?", h:"Helps us decide where the first Swell fridges go.", type:"text", req:1, ph:"e.g. Provo, UT"},
   {id:"workout", t:"How often do you work out?", type:"single", req:1, o:["Rarely or never","1–2 times a week","3–4 times a week","5+ times a week"]},
-  {id:"workout_type", t:"What kind of workouts do you do?", h:"Pick all that apply.", type:"multi", o:["Weightlifting","Pilates or reformer","Barre","Running","Yoga","Group classes (HIIT, Orangetheory, F45)","Cycling or spin","Team sports","Walking or hiking","None"]},
-  {id:"goal", t:"What's your main health goal right now?", type:"single", req:1, o:["Lose weight or stay lean","Build muscle","Tone up","Maintain and feel good","More energy","Not focused on it"]}
+  {id:"workout_type", t:"What kind of workouts do you do?", h:"Check all that apply.", type:"multi", o:["Weightlifting","Pilates or reformer","Barre","Running","Yoga","Group classes (HIIT, Orangetheory, F45)","Cycling or spin","Team sports","Walking or hiking","None"]},
+  {id:"goal", t:"What are your health goals right now?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Lose weight or stay lean","Build muscle","Tone up","Maintain and feel good","More energy","Not focused on it"]}
  ]},
  {id:"habits", tab:"Your shakes", kick:"Part 2 of 10", title:"Your protein <em>habits</em>", sub:"Powder or ready-to-drink bottles both count.", qs:[
   {id:"freq", t:"How often do you drink protein shakes?", type:"single", req:1, o:["Never","A few times a year","1–3 times a month","1–2 times a week","3–5 times a week","Every day"]},
-  {id:"brands", t:"Which ones have you bought in the last 6 months?", h:"Pick all that apply.", type:"multi", o:["fairlife Core Power","fairlife Nutrition Plan","Premier Protein","Alani Nu","David","Vital Proteins","Muscle Milk","OWYN","Orgain","Slate","Store brand (Kirkland, Great Value…)","Protein powder I mix myself","None"], other:1},
-  {id:"where_buy", t:"Where do you usually buy them?", h:"Pick all that apply.", type:"multi", o:["Costco or Sam's","Walmart","Target","Grocery store","Gas station","Amazon","At the gym or studio","Brand website","I don't buy them"]},
-  {id:"when", t:"When would you most likely drink one?", h:"Pick all that apply.", type:"multi", req:1, o:["Breakfast or on the way out","Before a workout","After a workout","Afternoon snack","Between classes or meetings","Dessert or a sweet craving","Mixed into coffee","Instead of a meal"]},
-  {id:"like", t:"What do you LIKE about protein shakes?", h:"Pick all that apply.", type:"multi", req:1, o:["Easy and convenient","Keeps me full","Helps me hit my protein","Low calorie","Tastes like a treat","Helps recovery","Cheaper than a meal","Nothing really"], other:1},
-  {id:"dislike", t:"What do you DISLIKE about protein shakes?", h:"Pick all that apply.", type:"multi", req:1, o:["Chalky or gritty","Artificial aftertaste","Too sweet","Thin or watery","Bloating or upset stomach","Too many ingredients I can't pronounce","Too expensive","Boring or ugly packaging","Never cold when I want one","Doesn't keep me full","Too many calories"], other:1},
-  {id:"dealbreaker", t:"Which ONE would make you never buy a shake again?", type:"single", req:1, o:["Bad taste or aftertaste","Bloating or stomach issues","Price","Ingredient list","Sugar content","Not enough protein","Packaging looks cheap or medical"]},
+  {id:"brands", t:"Which ones have you bought in the last 6 months?", h:"Check all that apply.", type:"multi", o:["fairlife Core Power","fairlife Nutrition Plan","Premier Protein","Alani Nu","David","Vital Proteins","Muscle Milk","OWYN","Orgain","Slate","Store brand (Kirkland, Great Value…)","Protein powder I mix myself","None"], other:1},
+  {id:"where_buy", t:"Where do you usually buy them?", h:"Check all that apply.", type:"multi", o:["Costco or Sam's","Walmart","Target","Grocery store","Gas station","Amazon","At the gym or studio","Brand website","I don't buy them"]},
+  {id:"when", t:"When would you most likely drink one?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Breakfast or on the way out","Before a workout","After a workout","Afternoon snack","Between classes or meetings","Dessert or a sweet craving","Mixed into coffee","Instead of a meal"]},
+  {id:"like", t:"What do you LIKE about protein shakes?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Easy and convenient","Keeps me full","Helps me hit my protein","Low calorie","Tastes like a treat","Helps recovery","Cheaper than a meal","Nothing really"], other:1},
+  {id:"dislike", t:"What do you DISLIKE about protein shakes?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Chalky or gritty","Artificial aftertaste","Too sweet","Thin or watery","Bloating or upset stomach","Too many ingredients I can't pronounce","Too expensive","Boring or ugly packaging","Never cold when I want one","Doesn't keep me full","Too many calories"], other:1},
+  {id:"dealbreaker", t:"What would make you never buy a shake again?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Bad taste or aftertaste","Bloating or stomach issues","Price","Ingredient list","Sugar content","Not enough protein","Packaging looks cheap or medical"]},
   {id:"taste_wish", t:"How do you wish protein shakes tasted?", h:"Tap any that fit, then add your own words.", type:"textarea", req:1, chips:["Like a real milkshake","Thicker and creamier","Less sweet","Like an iced latte","Like melted ice cream","Light and refreshing","No aftertaste at all"], ph:"Describe your perfect shake…"},
-  {id:"flavor_first", t:"Swell launches in 4 flavors. Which would you try first?", type:"single", req:1, o:["Chocolate","Vanilla","Cookie Butter","Matcha"]},
+  {id:"flavor_first", t:"Swell launches in 4 flavors. Which would you buy?", h:"Check all that apply.", type:"multi", req:1, o:["Chocolate","Vanilla","Cookie Butter","Matcha"]},
   {id:"flavor_wish", t:"A flavor you wish existed?", type:"text", ph:"e.g. Strawberry cheesecake"}
  ]},
  {id:"ingredients", tab:"Ingredients", kick:"Part 3 of 10", title:"What's <em>inside</em> matters?", sub:"Tell us what you actually look for on the label, and what you don't care about at all.", qs:[
   {id:"ing", t:"How much do you care about each of these?", type:"matrix", req:1, cols:["Don't care","Nice to have","Must have"], rows:[
     ["ing_protein","High protein (30g+)"],["ing_lowcal","Low calories"],["ing_lowsugar","Low sugar"],["ing_noartificial","No artificial sweeteners"],["ing_short","Short, simple ingredient list"],["ing_lactose","Lactose-free (no bloating)"],["ing_collagen","Collagen peptides","hair, skin, nails, joints"],["ing_iron","Iron + vitamin C","energy, fewer tired days"],["ing_probiotic","Probiotics","gut health"],["ing_caffeine","Caffeine","a pre-workout or coffee swap"],["ing_creamy","Thick, creamy texture"],["ing_shelf","Doesn't need the fridge until opened"]]},
-  {id:"avoid", t:"Any of these make you put a shake back on the shelf?", h:"Pick all that apply.", type:"multi", req:1, o:["Sucralose","Ace-K","Stevia","Monk fruit","Allulose","Carrageenan","Added sugar","Gums","Seed oils","Dairy","None of these","I don't know what most of these are"]},
-  {id:"protein_amt", t:"How much protein do you want in one bottle?", type:"single", req:1, o:["15–20g","25–30g","40g","50g","Depends on the day"]},
+  {id:"avoid", t:"Any of these make you put a shake back on the shelf?", h:"Check all that apply.", type:"multi", req:1, o:["Sucralose","Ace-K","Stevia","Monk fruit","Allulose","Carrageenan","Added sugar","Gums","Seed oils","Dairy","None of these","I don't know what most of these are"]},
+  {id:"protein_amt", t:"How much protein would you want in one bottle?", h:"Check all that apply.", type:"multi", req:1, o:["15–20g","25–30g","40g","50g","Depends on the day"]},
   {id:"caffeine_opt", t:"Would you want a caffeinated version?", type:"single", req:1, o:["Yes, caffeinated please","No, keep it caffeine-free","Offer both and I'll choose"]}
  ]},
  {id:"look", tab:"Look test", kick:"Part 4 of 10", title:"Judge them by <em>the look</em>", sub:"Don't think about taste, price or ingredients. Just the packaging.", qs:[
@@ -284,16 +284,16 @@ const S = [
  ]},
  {id:"brand", tab:"Brand", kick:"Part 6 of 10", title:"Meet <em>Swell</em>", sub:"A premium protein shake that tastes like a milkshake. Swell 30g comes in the pink 14oz bottle; Swell 50g comes in the bigger light-blue 16oz bottle. Both have collagen peptides, iron + vitamin C, and zero lactose.", show:"brand", qs:[
   {id:"first_word", t:"First impression, in one word?", type:"text", req:1, ph:"One word"},
-  {id:"words", t:"Which words describe how Swell looks?", h:"Pick all that apply.", type:"multi", req:1, o:["Premium","Clean","Aesthetic","Feminine","Cute","Girly","Healthy","Fun","Trustworthy","Expensive-looking","Gym-ready","Luxury","Cheap","Boring","Childish","Medical","Too pink"]},
+  {id:"words", t:"Which words best describe how Swell looks?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Premium","Clean","Aesthetic","Feminine","Cute","Girly","Healthy","Fun","Trustworthy","Expensive-looking","Gym-ready","Luxury","Cheap","Boring","Childish","Medical","Too pink"]},
   {id:"r_premium", t:"How premium does Swell look?", type:"scale", n:10, req:1, lo:"Cheap", hi:"Very premium"},
   {id:"r_appetite", t:"How tasty does it look?", type:"scale", n:10, req:1, lo:"Not at all", hi:"I want one now"},
   {id:"r_forme", t:"How much does Swell feel made for someone like you?", type:"scale", n:10, req:1, lo:"Not for me", hi:"Made for me"},
   {id:"colors", t:"How do you feel about the colors?", type:"matrix", req:1, cols:["Don't like","It's fine","Love it"], rows:[["color_pink","Pink bottle (30g)"],["color_blue","Light-blue bottle (50g)"],["color_together","Pink and blue together as a brand"]]},
   {id:"bottle_pick", t:"Which bottle would you grab?", type:"single", req:1, o:["Pink · 30g · 14oz","Blue · 50g · 16oz","Either, depends on the day"]},
   {id:"public", t:"Would you carry the pink bottle in public, like at the gym or in class?", type:"single", req:1, o:["Yes, proudly","Yes, it's fine","I'd rather carry the blue one","No"]},
-  {id:"who_for", t:"Who do you think Swell is for?", type:"single", req:1, o:["Mostly women","Mostly men","Everyone"]},
+  {id:"who_for", t:"Who do you think Swell is for?", h:"Check all that apply.", type:"multi", req:1, o:["Mostly women","Mostly men","Everyone"]},
   {id:"name_fit", t:"How much do you like the name \"Swell\"?", type:"scale", n:5, req:1, lo:"Dislike", hi:"Love it"},
-  {id:"name_pick", t:"If it had a different name, which would you like best?", type:"single", req:1, o:["Swell","Blush","Plush","None of these"], other:1, otherLabel:"Suggest a name"},
+  {id:"name_pick", t:"Which of these names do you like?", h:"Check all that apply.", type:"multi", req:1, o:["Swell","Blush","Plush","None of these"], other:1, otherLabel:"Suggest a name"},
   {id:"change", t:"If you could change ONE thing about the look, what would it be?", type:"text", ph:"Color, bottle shape, logo, font…"}
  ]},
  {id:"price", tab:"Pricing", kick:"Part 7 of 10", title:"What's it <em>worth</em> to you?", sub:"Picture a 14oz Swell bottle: 30g protein, 170 calories, tastes like a milkshake, with collagen, iron and zero lactose. There are no right answers.", qs:[
@@ -306,18 +306,18 @@ const S = [
  {id:"fridges", tab:"Membership", kick:"Part 8 of 10", title:"Swell <em>fridges</em> + membership", sub:"Here's the idea. Tell us honestly if you'd use it.", show:"fridge", qs:[
   {id:"mem_interest", t:"How interested are you in a Swell membership?", type:"scale", n:5, req:1, lo:"Not at all", hi:"Sign me up"},
   {id:"mem_price", t:"What's the most you'd pay per month for the membership?", h:"The membership gets you member pricing and rewards. Bottles are charged as you take them.", type:"single", req:1, o:["$0, only if it's free","$2.99","$4.99","$9.99","$14.99","$19.99+"]},
-  {id:"mem_value", t:"What would make the membership worth it?", h:"Pick up to 3.", type:"multi", max:3, req:1, o:["Cheaper price per bottle","A free Swell every so often","Points toward free Swells","Free shipping on boxes","First access to new flavors","Members-only flavors","Swell merch","Fridge access near me"], other:1},
+  {id:"mem_value", t:"What would make the membership worth it?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Cheaper price per bottle","A free Swell every so often","Points toward free Swells","Free shipping on boxes","First access to new flavors","Members-only flavors","Swell merch","Fridge access near me"], other:1},
   {id:"per_week", t:"If a fridge was right where you already go, how many Swells would you grab per week?", type:"single", req:1, o:["0","1","2–3","4–5","6+"]},
-  {id:"locations", t:"Where should Swell fridges go?", h:"Pick up to 5.", type:"multi", max:5, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","High school","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
+  {id:"locations", t:"Where should Swell fridges go?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","High school","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
   {id:"loc_specific", t:"Name a specific place near you where you'd want a Swell fridge.", type:"text", ph:"e.g. The BYU Wilk, Club Pilates Lehi"},
   {id:"sub_box", t:"Would you subscribe to a monthly build-your-own Swell box delivered to your door?", type:"single", req:1, o:["Yes","Maybe, if there's a discount","No, I'd rather buy as I go"]}
  ]},
  {id:"share", tab:"Share", kick:"Part 9 of 10", title:"Would you <em>show it off</em>?", sub:"Say Swell tasted amazing and made you feel good.", qs:[
   {id:"post", t:"Would you post about Swell?", type:"single", req:1, o:["Definitely","Probably","Maybe","Probably not","No, I don't post brands"]},
-  {id:"post_where", t:"Where would you post it?", h:"Pick all that apply.", type:"multi", o:["Instagram story","Instagram post","TikTok","Snapchat","Pinterest","BeReal","Group chat","Nowhere"]},
+  {id:"post_where", t:"Where would you post it?", h:"Check all that apply.", type:"multi", o:["Instagram story","Instagram post","TikTok","Snapchat","Pinterest","BeReal","Group chat","Nowhere"]},
   {id:"aesthetic", t:"The bottle is something I'd want to be seen with.", type:"scale", n:5, req:1, lo:"Disagree", hi:"Agree"},
   {id:"nps", t:"How likely are you to recommend Swell to a friend?", h:"0 = not at all likely, 10 = extremely likely.", type:"scale", n:11, start:0, req:1, lo:"Not at all", hi:"Extremely"},
-  {id:"influence", t:"What actually gets you to try a new drink?", h:"Pick up to 3.", type:"multi", max:3, req:1, o:["A friend recommends it","TikTok creators","Instagram influencers","My gym or Pilates instructor","Seeing it in a store","A free sample","Reviews","A good deal or discount"]},
+  {id:"influence", t:"What actually gets you to try a new drink?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["A friend recommends it","TikTok creators","Instagram influencers","My gym or Pilates instructor","Seeing it in a store","A free sample","Reviews","A good deal or discount"]},
   {id:"ambassador", t:"Would you want to be a Swell ambassador and earn free shakes or commission?", type:"single", req:1, o:["Yes!","Maybe","No"]},
   {id:"handle", t:"Your Instagram or TikTok handle (optional)", h:"Only if you said yes or maybe above.", type:"text", ph:"@yourhandle", showIf:a=>a.ambassador==="Yes!"||a.ambassador==="Maybe"}
  ]},
@@ -428,11 +428,11 @@ document.addEventListener("click", e => {
     const q = findQ(qid); const v = d.v;
     if (q.type==="multi"){
       let cur = Array.isArray(A[qid]) ? A[qid].slice() : [];
-      const exclusive = /^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really)$/.test(v);
+      const exclusive = /^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really|Not focused on it)$/.test(v);
       if (cur.includes(v)) cur = cur.filter(x=>x!==v);
       else {
-        if (exclusive) cur = [v]; else cur = cur.filter(x=>!/^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really)$/.test(x));
-        if (q.max && cur.length >= q.max){ toast(`Pick up to ${q.max}. Tap one to remove it first.`); return; }
+        if (exclusive) cur = [v]; else cur = cur.filter(x=>!/^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really|Not focused on it)$/.test(x));
+        if (q.max && cur.length >= q.max){ toast(`Top ${q.max} only. Tap one to remove it first.`); return; }
         if (!exclusive) cur.push(v);
       }
       A[qid] = cur;
