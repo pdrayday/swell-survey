@@ -269,7 +269,7 @@ const S = [
   {id:"dislike", t:"What do you DISLIKE about protein shakes?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Chalky or gritty","Artificial aftertaste","Too sweet","Thin or watery","Bloating or upset stomach","Too many ingredients I can't pronounce","Too expensive","Boring or ugly packaging","Never cold when I want one","Doesn't keep me full","Too many calories"], other:1},
   {id:"dealbreaker", t:"What would make you never buy a shake again?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Bad taste or aftertaste","Bloating or stomach issues","Price","Ingredient list","Sugar content","Not enough protein","Packaging looks cheap or medical"]},
   {id:"taste_wish", t:"How do you wish protein shakes tasted?", h:"Tap any that fit, then add your own words.", type:"textarea", req:1, chips:["Like a real milkshake","Thicker and creamier","Less sweet","Like an iced latte","Like melted ice cream","Light and refreshing","No aftertaste at all"], ph:"Describe your perfect shake…"},
-  {id:"flavor_first", t:"Swell launches in 4 flavors. Which would you buy?", h:"Check all that apply.", type:"multi", req:1, o:["Chocolate","Vanilla","Cookie Butter","Matcha"]},
+  {id:"flavor_first", t:"Swell comes in 5 flavors. Which would you buy?", h:"Check all that apply.", type:"multi", req:1, o:["Chocolate","Vanilla","Cookie Butter","Matcha","Peanut Butter"]},
   {id:"flavor_wish", t:"A flavor you wish existed?", type:"text", ph:"e.g. Strawberry cheesecake"}
  ]},
  {id:"ingredients", tab:"Ingredients", kick:"Part 3 of 10", title:"What's <em>inside</em> matters?", sub:"Tell us what you actually look for on the label, and what you don't care about at all.", qs:[
@@ -306,7 +306,7 @@ const S = [
   {id:"vw", t:"At what price per bottle would Swell be…", h:"Type a dollar amount for each.", type:"money", req:1, f:[["vw_cheap","…so cheap you'd doubt the quality?"],["vw_bargain","…a great deal?"],["vw_pricey","…getting expensive, but you'd still buy?"],["vw_toomuch","…too expensive to consider?"]]},
   {id:"box_price", t:"The most you'd pay for a 12-bottle box delivered to your door?", type:"single", req:1, o:["Under $30","$30–39","$40–49","$50–59","$60+"]},
   {id:"single_price", t:"The most you'd pay for ONE cold Swell from a fridge at your gym, studio or campus?", type:"single", req:1, o:["Under $3","$3–3.99","$4–4.99","$5–5.99","$6–6.99","$7+"]},
-  {id:"intent", t:"If one cold Swell was $5, or $4.25 each when you buy a 12-box, how likely are you to buy?", type:"single", req:1, o:["Definitely would","Probably would","Might or might not","Probably not","Definitely not"]},
+  {id:"intent", t:"If one cold Swell was $5, or $4.25 each when you subscribe to a box of 12 or 24, how likely are you to buy?", type:"single", req:1, o:["Definitely would","Probably would","Might or might not","Probably not","Definitely not"]},
   {id:"vs_fairlife", t:"Compared with fairlife Core Power, how much more would you pay for Swell if you liked it more?", type:"single", req:1, o:["Nothing more, same price or I'd buy fairlife","Up to 25¢ more","Up to 50¢ more","Up to $1 more","$1+ more"]}
  ]},
  {id:"fridges", tab:"Membership", kick:"Part 8 of 10", title:"Swell <em>fridges</em> + membership", sub:"Here's the idea: three ways to be a Swell member. Tell us honestly which, if any, you'd use.", show:"fridge", qs:[
@@ -317,9 +317,9 @@ const S = [
   {id:"price_rewards", t:"Swell Rewards: the most you'd pay per month for member pricing and points toward free Swells?", h:"You pay per bottle as you go, just less, and earn points on every one.", type:"single", req:1, o:["$0, only if it's free","$2.99","$4.99","$9.99","$14.99+"]},
   {id:"mem_value", t:"What would make the membership worth it?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Cheaper price per bottle","A free Swell every so often","Points toward free Swells","Free shipping on boxes","First access to new flavors","Members-only flavors","Swell merch","Fridge access near me"], other:1},
   {id:"per_week", t:"If a fridge was right where you already go, how many Swells would you grab per week?", type:"single", req:1, o:["0","1","2–3","4–5","6+"]},
-  {id:"locations", t:"Where should Swell fridges go?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","High school","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
+  {id:"locations", t:"Where should Swell fridges go?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
   {id:"loc_specific", t:"Name a specific place near you where you'd want a Swell fridge.", type:"text", ph:"e.g. The BYU Wilk, Club Pilates Lehi"},
-  {id:"sub_box", t:"Without a membership, would you subscribe to a monthly build-your-own box delivered to your door?", type:"single", req:1, o:["Yes","Maybe, if there's a discount","No, I'd rather buy as I go"]}
+  {id:"sub_box", t:"Without a membership, would you subscribe to a build-your-own box delivered to your door every 2 or 4 weeks?", type:"single", req:1, o:["Yes","Maybe, if there's a discount","No, I'd rather buy as I go"]}
  ]},
  {id:"share", tab:"Share", kick:"Part 9 of 10", title:"Would you <em>show it off</em>?", sub:"Say Swell tasted amazing and made you feel good.", qs:[
   {id:"post", t:"Would you post about Swell?", type:"single", req:1, o:["Definitely","Probably","Maybe","Probably not","No, I don't post brands"]},
