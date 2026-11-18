@@ -124,10 +124,12 @@ main{padding-block:clamp(26px,5vw,56px) 40px}
 input[type=text],input[type=email],input[type=number],textarea{width:100%;border:2px solid #f3cfdc;background:#fff;border-radius:16px;padding:14px 16px;font:500 16px/1.4 var(--body);color:#5e2f40;outline:none;transition:border-color .2s}
 input:focus,textarea:focus{border-color:var(--sel)}
 textarea{min-height:110px;resize:vertical}
+.sel{width:100%;border:2px solid #f3cfdc;background:#fff;border-radius:16px;padding:14px 16px;font:600 16px/1.4 var(--body);color:#5e2f40;outline:none;-webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#c9577f 50%),linear-gradient(135deg,#c9577f 50%,transparent 50%);background-position:calc(100% - 22px) 52%,calc(100% - 16px) 52%;background-size:6px 6px;background-repeat:no-repeat}
+.sel:focus{border-color:var(--sel)}
 .money{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .money label{display:grid;gap:6px;padding:12px;border-radius:16px;background:#fbe6ee;font:600 14.5px/1.3 var(--body);color:#5e2f40}
 .money .in{position:relative}.money .in span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--muted)}
-.money input{padding-left:28px}
+.money input{padding-left:44px}
 @media (max-width:560px){.money{grid-template-columns:1fr}}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .chips button{border:0;background:#fbe6ee;color:#5e2f40;border-radius:999px;padding:8px 12px;font:600 13.5px/1 var(--body);cursor:pointer}
@@ -249,19 +251,46 @@ const LOOK_ORDER = shuffle(Object.keys(SHAKES));
 const SPEC_ORDER = shuffle(Object.keys(SHAKES));
 const LETTERS = "ABCDEF";
 
+/* ---------- countries + currency (approximate rates to USD, Nov 2026) ---------- */
+const COUNTRIES = [
+  ["United States","USD",1],["Canada","CAD",1.39],["Mexico","MXN",18.5],["United Kingdom","GBP",0.79],["Ireland","EUR",0.94],
+  ["Germany","EUR",0.94],["France","EUR",0.94],["Spain","EUR",0.94],["Italy","EUR",0.94],["Netherlands","EUR",0.94],
+  ["Australia","AUD",1.53],["New Zealand","NZD",1.69],["Indonesia","IDR",15800],["Philippines","PHP",58],["Singapore","SGD",1.34],
+  ["Malaysia","MYR",4.45],["Japan","JPY",154],["South Korea","KRW",1390],["India","INR",84],["United Arab Emirates","AED",3.67],
+  ["Brazil","BRL",5.7],["South Africa","ZAR",18],["Other","USD",1]
+];
+function cur(){ const c = COUNTRIES.find(x=>x[0]===A.country); return c ? {code:c[1], rate:c[2]} : {code:"USD", rate:1}; }
+function nice(v){ if (v < 10) return Math.round(v*4)/4; if (v < 100) return Math.round(v); if (v < 1000) return Math.round(v/5)*5; const m = Math.pow(10, Math.floor(Math.log10(v))-1); return Math.round(v/m)*m; }
+function money(usd){
+  const {code, rate} = cur(); const v = rate===1 ? usd : nice(usd*rate);
+  try { return new Intl.NumberFormat(undefined,{style:"currency",currency:code,minimumFractionDigits:v%1?2:0,maximumFractionDigits:2}).format(v); }
+  catch(e){ return code+" "+v; }
+}
+/* swap every $ amount in a string for the respondent's currency; "$3–3.99" ranges convert both ends */
+function L(str){
+  if (cur().code==="USD") return str;
+  return String(str).replace(/\$(\d+(?:\.\d+)?)(k)?(\+)?(?:–(\d+(?:\.\d+)?)(k)?)?/g, (m,a,k1,plus,b,k2)=> money(+a*(k1?1000:1))+(plus||"")+(b?"–"+money(+b*((k2||k1)?1000:1)).replace(symbol(),"").replace(/^[\s\u00a0]+|[\s\u00a0]+$/g,""):""));
+}
+
 /* ---------- survey definition ---------- */
 const S = [
- {id:"you", tab:"About you", kick:"Part 1 of 10", title:"First, a little <em>about you</em>", sub:"So we know who's saying what. Nothing here identifies you.", qs:[
+ {id:"you", tab:"About you", kick:"Part 1 of 10", title:"First, a little <em>about you</em>", sub:"So we know who's saying what. Nothing here identifies you, and anything marked optional can be skipped.", qs:[
   {id:"gender", t:"I am a…", type:"single", req:1, o:["Woman","Man","Non-binary","Prefer not to say"]},
   {id:"age", t:"How old are you?", type:"single", req:1, o:["Under 18","18–20","21–24","25–29","30–34","35+"]},
-  {id:"life", t:"What describes you right now?", h:"Check all that apply.", type:"multi", req:1, o:["College student","High school student","Working full-time","Working part-time","Stay-at-home parent","Other"], other:1},
-  {id:"city", t:"What city and state do you live in?", h:"Helps us decide where the first Swell fridges go.", type:"text", req:1, ph:"e.g. Provo, UT"},
+  {id:"life", t:"What describes you right now?", h:"Check all that apply.", type:"multi", req:1, o:["College student","High school student","Working full-time","Working part-time","Stay-at-home parent"], other:1},
+  {id:"country", t:"What country do you live in?", h:"Prices later in the survey will show in your currency.", type:"select", req:1, o:COUNTRIES.map(c=>c[0])},
+  {id:"city", t:"What city (and state or region) do you live in?", h:"Helps us decide where the first Swell fridges go.", type:"text", req:1, ph:"e.g. Provo, UT"},
   {id:"workout", t:"How often do you work out?", type:"single", req:1, o:["Rarely or never","1–2 times a week","3–4 times a week","5+ times a week"]},
   {id:"workout_type", t:"What kind of workouts do you do?", h:"Check all that apply.", type:"multi", o:["Weightlifting","Pilates or reformer","Barre","Running","Yoga","Group classes (HIIT, Orangetheory, F45)","Cycling or spin","Team sports","Walking or hiking","None"]},
+  {id:"education", t:"Highest level of school you've finished?", type:"single", req:1, o:["High school or less","Some college","Associate degree","Bachelor's degree","Graduate degree","Prefer not to say"]},
+  {id:"living", t:"Who do you live with?", type:"single", req:1, o:["Alone","Roommates","Partner or spouse","Partner and kids","Parents or family","Prefer not to say"]},
+  {id:"income", t:"Roughly, what's your personal yearly income?", h:"Optional. Shown in your currency.", type:"single", o:["Under $25k","$25k–50k","$50k–75k","$75k–100k","$100k–150k","$150k+","Prefer not to say"]},
+  {id:"ethnicity", t:"How do you describe your ethnicity?", h:"Optional. Check all that apply.", type:"multi", o:["Asian","Black or African American","Hispanic or Latino","Middle Eastern or North African","Native American or Alaska Native","Pacific Islander","White","Prefer not to say"]},
   {id:"goal", t:"What are your health goals right now?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Lose weight or stay lean","Build muscle","Tone up","Maintain and feel good","More energy","Not focused on it"]}
  ]},
  {id:"habits", tab:"Your shakes", kick:"Part 2 of 10", title:"Your protein <em>habits</em>", sub:"Powder or ready-to-drink bottles both count.", qs:[
   {id:"freq", t:"How often do you drink protein shakes?", type:"single", req:1, o:["Never","A few times a year","1–3 times a month","1–2 times a week","3–5 times a week","Every day"]},
+  {id:"desire", t:"How badly do you wish there was a more convenient way to get healthier, better-tasting protein shakes?", type:"scale", n:10, req:1, lo:"Not at all", hi:"Desperately"},
   {id:"brands", t:"Which ones have you bought in the last 6 months?", h:"Check all that apply.", type:"multi", o:["fairlife Core Power","fairlife Nutrition Plan","Premier Protein","Alani Nu","David","Vital Proteins","Muscle Milk","OWYN","Orgain","Slate","Store brand (Kirkland, Great Value…)","Protein powder I mix myself","None"], other:1},
   {id:"where_buy", t:"Where do you usually buy them?", h:"Check all that apply.", type:"multi", o:["Costco or Sam's","Walmart","Target","Grocery store","Gas station","Amazon","At the gym or studio","Brand website","I don't buy them"]},
   {id:"when", t:"When would you most likely drink one?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Breakfast or on the way out","Before a workout","After a workout","Afternoon snack","Between classes or meetings","Dessert or a sweet craving","Mixed into coffee","Instead of a meal"]},
@@ -303,11 +332,11 @@ const S = [
   {id:"change", t:"If you could change ONE thing about the look, what would it be?", type:"text", ph:"Color, bottle shape, logo, font…"}
  ]},
  {id:"price", tab:"Pricing", kick:"Part 7 of 10", title:"What's it <em>worth</em> to you?", sub:"Picture a 14oz Swell bottle: 30g protein, 170 calories, tastes like a milkshake, with collagen, iron and zero lactose. There are no right answers.", qs:[
-  {id:"vw", t:"At what price per bottle would Swell be…", h:"Type a dollar amount for each.", type:"money", req:1, f:[["vw_cheap","…so cheap you'd doubt the quality?"],["vw_bargain","…a great deal?"],["vw_pricey","…getting expensive, but you'd still buy?"],["vw_toomuch","…too expensive to consider?"]]},
+  {id:"vw", t:"At what price per bottle would Swell be…", h:"Type an amount for each.", type:"money", req:1, f:[["vw_cheap","…so cheap you'd doubt the quality?"],["vw_bargain","…a great deal?"],["vw_pricey","…getting expensive, but you'd still buy?"],["vw_toomuch","…too expensive to consider?"]]},
   {id:"box_price", t:"The most you'd pay for a 12-bottle box delivered to your door?", type:"single", req:1, o:["Under $30","$30–39","$40–49","$50–59","$60+"]},
   {id:"single_price", t:"The most you'd pay for ONE cold Swell from a fridge at your gym, studio or campus?", type:"single", req:1, o:["Under $3","$3–3.99","$4–4.99","$5–5.99","$6–6.99","$7+"]},
   {id:"intent", t:"If one Swell was $5, or $4.25 each when you subscribe to a box, how likely are you to buy?", type:"single", req:1, o:["Definitely would","Probably would","Might or might not","Probably not","Definitely not"]},
-  {id:"vs_fairlife", t:"Compared with fairlife Core Power, how much more would you pay for Swell if you liked it more?", type:"single", req:1, o:["Nothing more, same price or I'd buy fairlife","Up to 25¢ more","Up to 50¢ more","Up to $1 more","$1+ more"]}
+  {id:"vs_fairlife", t:"Compared with fairlife Core Power, how much more would you pay for Swell if you liked it more?", type:"single", req:1, o:["Nothing more, same price or I'd buy fairlife","Up to $0.25 more","Up to $0.50 more","Up to $1 more","$1+ more"]}
  ]},
  {id:"fridges", tab:"Membership", kick:"Part 8 of 10", title:"Swell <em>fridges</em> + membership", sub:"Here's the idea: three ways to be a Swell member. Tell us honestly which, if any, you'd use.", show:"fridge", qs:[
   {id:"mem_interest", t:"Overall, how interested are you in a Swell membership?", type:"scale", n:5, req:1, lo:"Not at all", hi:"Sign me up"},
@@ -358,7 +387,7 @@ function header(){
 /* ---------- renderers ---------- */
 function optBtn(q, label, multi){
   const cur = A[q.id]; const on = multi ? Array.isArray(cur) && cur.includes(label) : cur === label;
-  return `<button type="button" class="opt${multi?" multi":""}" aria-pressed="${on}" data-q="${q.id}" data-v="${esc(label)}"><span class="dot"></span><span>${esc(label)}</span></button>`;
+  return `<button type="button" class="opt${multi?" multi":""}" aria-pressed="${on}" data-q="${q.id}" data-v="${esc(label)}"><span class="dot"></span><span>${esc(L(label))}</span></button>`;
 }
 function renderQ(q, n){
   if (q.showIf && !q.showIf(A)) return "";
@@ -373,6 +402,8 @@ function renderQ(q, n){
       const show = multi ? Array.isArray(cur)&&cur.includes(ol) : cur===ol;
       b += `<input type="text" class="other" data-other="${q.id}" placeholder="Tell us…" value="${esc(A[q.id+"_other"]||"")}" ${show?"":"hidden"}>`;
     }
+  } else if (T==="select"){
+    b = `<select class="sel" data-sel="${q.id}"><option value="">Choose…</option>${q.o.map(o=>`<option${A[q.id]===o?" selected":""}>${esc(o)}</option>`).join("")}</select>`;
   } else if (T==="scale"){
     const st = q.start ?? 1; let bs = "";
     for (let i=st;i<st+q.n;i++) bs += `<button type="button" aria-pressed="${A[q.id]===i}" data-scale="${q.id}" data-v="${i}">${i}</button>`;
@@ -384,15 +415,16 @@ function renderQ(q, n){
   } else if (T==="textarea"){
     b = (q.chips?`<div class="chips">${q.chips.map(c=>`<button type="button" data-chip="${q.id}">${esc(c)}</button>`).join("")}</div>`:"") + `<textarea data-text="${q.id}" placeholder="${esc(q.ph||"")}">${esc(A[q.id]||"")}</textarea>`;
   } else if (T==="money"){
-    b = `<div class="money">${q.f.map(f=>`<label>${esc(f[1])}<span class="in"><span>$</span><input type="number" inputmode="decimal" min="0" step="0.25" data-text="${f[0]}" value="${esc(A[f[0]]??"")}" placeholder="0.00"></span></label>`).join("")}</div>`;
+    b = `<div class="money">${q.f.map(f=>`<label>${esc(f[1])}<span class="in"><span class="sym">${esc(symbol())}</span><input type="number" inputmode="decimal" min="0" step="0.25" data-text="${f[0]}" value="${esc(A[f[0]]??"")}" placeholder="0"></span></label>`).join("")}</div>`;
   } else if (T==="imgpick"){
     b = `<div class="picks">${LOOK_ORDER.map(k=>{const s=SHAKES[k];return `<button type="button" class="pick" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><span class="pi${s.imgs.length>1?" duo":""}">${s.imgs.map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</span><span class="pl">${esc(s.name)}</span></button>`;}).join("")}</div>`;
   } else if (T==="specpick"){
     b = `<div class="specs">${SPEC_ORDER.map((k,i)=>{const s=SHAKES[k];return `<button type="button" class="spec" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><h4>Shake ${LETTERS[i]}</h4><dl><div><dt>Size</dt><dd>${esc(s.size)}</dd></div><div><dt>Calories</dt><dd>${esc(s.cal)}</dd></div><div><dt>Protein</dt><dd>${esc(s.pro)}</dd></div><div><dt>Sugar</dt><dd>${esc(s.sug)}</dd></div><div><dt>Sweetened with</dt><dd>${esc(s.swt)}</dd></div><div><dt>Extras</dt><dd>${esc(s.extra)}</dd></div></dl></button>`;}).join("")}</div>`;
   }
-  return `<div class="q" id="q-${q.id}" data-qid="${q.id}"><div class="qt"><span class="num">${n}</span>${esc(q.t)}${q.req?' <span class="req" aria-label="required">*</span>':""}</div>${q.h?`<p class="qh">${esc(q.h)}</p>`:""}<div class="qb">${b}</div><p class="em" hidden></p></div>`;
+  return `<div class="q" id="q-${q.id}" data-qid="${q.id}"><div class="qt"><span class="num">${n}</span>${esc(L(q.t))}${q.req?' <span class="req" aria-label="required">*</span>':""}</div>${q.h?`<p class="qh">${esc(L(q.h))}</p>`:""}<div class="qb">${b}</div><p class="em" hidden></p></div>`;
 }
 
+function symbol(){ try { return new Intl.NumberFormat(undefined,{style:"currency",currency:cur().code}).formatToParts(0).find(p=>p.type==="currency").value; } catch(e){ return "$"; } }
 function showcase(kind){
   if (kind==="brand") return `<div class="show"><figure class="stage"><img src="img/s30_choc.webp" alt="Swell 30g chocolate, pink 14oz bottle"></figure><figure class="stage blue"><img src="img/s50_choc.webp" alt="Swell 50g chocolate, light-blue 16oz bottle"></figure></div>
   <div class="show"><div class="photo"><img src="img/ugc_reformer.webp" alt="Swell at a reformer Pilates class" loading="lazy"></div><div class="photo"><img src="img/ugc_vanilla.webp" alt="Swell 30g vanilla in hand" loading="lazy"></div></div>`;
@@ -419,8 +451,8 @@ function render(){
   const s = S[step]; let n = 0;
   const qs = s.qs.map(q => { if (q.showIf && !q.showIf(A)) return ""; n++; return renderQ(q, n); }).join("");
   app.innerHTML = `<section class="screen">
-    <div class="sh"><p class="kick">${esc(s.kick)}</p><h2>${s.title}</h2><p>${esc(s.sub)}</p></div>
-    ${s.show?showcase(s.show):""}
+    <div class="sh"><p class="kick">${esc(s.kick)}</p><h2>${s.title}</h2><p>${esc(L(s.sub))}${s.id==="price"&&cur().code!=="USD"?` Prices are shown in ${cur().code} (approximate).`:""}</p></div>
+    ${s.show?L(showcase(s.show)):""}
     <div id="qs">${qs}</div>
     <div class="navb"><button class="btn alt" type="button" id="back">← Back</button><button class="btn big" type="button" id="next">${step===S.length-1?"Submit":"Next"} →</button></div>
   </section>`;
@@ -438,10 +470,10 @@ document.addEventListener("click", e => {
     const q = findQ(qid); const v = d.v;
     if (q.type==="multi"){
       let cur = Array.isArray(A[qid]) ? A[qid].slice() : [];
-      const exclusive = /^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really|Not focused on it)$/.test(v);
+      const exclusive = /^(Prefer not to say|None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really|Not focused on it)$/.test(v);
       if (cur.includes(v)) cur = cur.filter(x=>x!==v);
       else {
-        if (exclusive) cur = [v]; else cur = cur.filter(x=>!/^(None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really|Not focused on it)$/.test(x));
+        if (exclusive) cur = [v]; else cur = cur.filter(x=>!/^(Prefer not to say|None|Nowhere|None of these|I don't buy them|I don't know what most of these are|Nothing really|Not focused on it)$/.test(x));
         if (q.max && cur.length >= q.max){ toast(`Top ${q.max} only. Tap one to remove it first.`); return; }
         if (!exclusive) cur.push(v);
       }
@@ -460,6 +492,10 @@ document.addEventListener("click", e => {
   if (d.mx){ A[d.mx] = d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); b.closest(".mrow").classList.remove("miss"); const qd=b.closest(".q"); if (qd && !qd.querySelector(".mrow.miss")) clearErr(qd.dataset.qid); save(); return; }
   if (d.pick){ A[d.pick] = d.v; b.parentElement.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.pick); save(); return; }
   if (d.chip){ const ta = document.querySelector(`textarea[data-text="${d.chip}"]`); const cur = ta.value.trim(); if (!cur.includes(b.textContent)){ ta.value = cur ? cur.replace(/[.\s]*$/,"") + ", " + b.textContent.toLowerCase() : b.textContent; } A[d.chip] = ta.value; clearErr(d.chip); save(); return; }
+});
+document.addEventListener("change", e => {
+  const t = e.target; if (!t.dataset.sel) return;
+  A[t.dataset.sel] = t.value; save(); if (t.dataset.sel==="country") rerenderKeep(); else clearErr(t.dataset.sel);
 });
 document.addEventListener("input", e => {
   const t = e.target;
@@ -500,6 +536,8 @@ function flatten(){
     else if (q.type==="imgpick"||q.type==="specpick") row[q.id] = A[q.id] ? SHAKES[A[q.id]].name : "";
     else { const v = A[q.id]; row[q.id] = Array.isArray(v) ? v.join("; ") : (v ?? ""); if (q.other) row[q.id+"_other"] = A[q.id+"_other"]||""; }
   }
+  const c = cur(); row.currency = c.code;
+  for (const s of S) for (const q of s.qs) if (q.type==="money") q.f.forEach(f=>{ const v = A[f[0]]; row[f[0]+"_usd"] = (v===""||v==null) ? "" : Math.round(v/c.rate*100)/100; });
   return row;
 }
 async function submit(){
