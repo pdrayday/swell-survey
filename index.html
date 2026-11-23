@@ -135,6 +135,14 @@ textarea{min-height:110px;resize:vertical}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .chips button{border:0;background:#fbe6ee;color:#5e2f40;border-radius:999px;padding:8px 12px;font:600 13.5px/1 var(--body);cursor:pointer}
 .chips button:active{transform:scale(.95)}
+.chips button[aria-pressed="true"]{background:var(--sel);color:#fff}
+.wn{display:grid;gap:10px}
+.wnrow{padding:12px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1.5px #f6dde6}
+.wnrow.miss{box-shadow:inset 0 0 0 2px var(--pink)}
+.wnh{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.wnh img{width:52px;height:52px;object-fit:contain;border-radius:10px;background:#fff}
+.wnh b{font:700 16px/1.2 var(--body);color:#5e2f40}
+.wnrow .chips{margin:0}
 
 /* image picks */
 .picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -273,6 +281,7 @@ function L(str){
   return String(str).replace(/\$(\d+(?:\.\d+)?)(k)?(\+)?(?:–(\d+(?:\.\d+)?)(k)?)?/g, (m,a,k1,plus,b,k2)=> money(+a*(k1?1000:1))+(plus||"")+(b?"–"+money(+b*((k2||k1)?1000:1)).replace(symbol(),"").replace(/^[\s\u00a0]+|[\s\u00a0]+$/g,""):""));
 }
 
+const WHYNOT = ["Looks cheap","Looks medical","Looks childish","Too masculine","Boring","Looks unhealthy","Looks artificial","Not my style","Don't trust the brand","Too bright or loud"];
 /* ---------- survey definition ---------- */
 const S = [
  {id:"you", tab:"About you", kick:"Part 1 of 10", title:"First, a little <em>about you</em>", sub:"So we know who's saying what. Nothing here identifies you.", qs:[
@@ -308,7 +317,8 @@ const S = [
  {id:"look", tab:"Look test", kick:"Part 4 of 10", title:"Judge them by <em>the look</em>", sub:"Don't think about taste, price or ingredients. Just the packaging.", qs:[
   {id:"look_pick", t:"Based ONLY on how it looks, which one would you buy?", type:"imgpick", req:1, items:"look"},
   {id:"look_why", t:"What made you pick that one?", type:"text", req:1, ph:"One sentence is perfect"},
-  {id:"look_worst", t:"Which one looks the LEAST appealing?", type:"imgpick", req:1, items:"look"}
+  {id:"look_worst", t:"Of the ones you didn't pick, which looks the LEAST appealing?", type:"imgpick", req:1, items:"look", exclude:"look_pick", showIf:a=>!!a.look_pick},
+  {id:"look_whynot", t:"Why wouldn't you buy the others?", h:"Based only on the look. Check all that apply for each one.", type:"whynot", req:1, showIf:a=>!!a.look_pick}
  ]},
  {id:"label", tab:"Label test", kick:"Part 5 of 10", title:"Now judge them by <em>the label</em>", sub:"Brand names are hidden. Look only at what's in each bottle.", qs:[
   {id:"spec_pick", t:"Based ONLY on what's inside, which one would you buy?", type:"specpick", req:1},
@@ -413,7 +423,10 @@ function renderQ(q, n){
   } else if (T==="money"){
     b = `<div class="money">${q.f.map(f=>`<label>${esc(f[1])}<span class="in"><span class="sym">${esc(symbol())}</span><input type="number" inputmode="decimal" min="0" step="0.25" data-text="${f[0]}" value="${esc(A[f[0]]??"")}" placeholder="0"></span></label>`).join("")}</div>`;
   } else if (T==="imgpick"){
-    b = `<div class="picks">${LOOK_ORDER.map(k=>{const s=SHAKES[k];return `<button type="button" class="pick" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><span class="pi${s.imgs.length>1?" duo":""}">${s.imgs.map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</span><span class="pl">${esc(s.name)}</span></button>`;}).join("")}</div>`;
+    b = `<div class="picks">${LOOK_ORDER.filter(k=>!(q.exclude && A[q.exclude]===k)).map(k=>{const s=SHAKES[k];return `<button type="button" class="pick" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><span class="pi${s.imgs.length>1?" duo":""}">${s.imgs.map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</span><span class="pl">${esc(s.name)}</span></button>`;}).join("")}</div>`;
+  } else if (T==="whynot"){
+    const others = LOOK_ORDER.filter(k=>k!==A.look_pick);
+    b = `<div class="wn">${others.map(k=>{const s=SHAKES[k]; const cur=A["whynot_"+k]||[]; return `<div class="wnrow" data-wn="${k}"><div class="wnh"><img src="${s.imgs[0]}" alt=""><b>${esc(s.name)}</b></div><div class="chips">${WHYNOT.map(r=>`<button type="button" aria-pressed="${cur.includes(r)}" data-why="${k}" data-v="${esc(r)}">${esc(r)}</button>`).join("")}</div></div>`;}).join("")}</div>`;
   } else if (T==="specpick"){
     b = `<div class="specs">${SPEC_ORDER.map((k,i)=>{const s=SHAKES[k];return `<button type="button" class="spec" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><h4>Shake ${LETTERS[i]}</h4><dl><div><dt>Size</dt><dd>${esc(s.size)}</dd></div><div><dt>Calories</dt><dd>${esc(s.cal)}</dd></div><div><dt>Protein</dt><dd>${esc(s.pro)}</dd></div><div><dt>Sugar</dt><dd>${esc(s.sug)}</dd></div><div><dt>Sweetened with</dt><dd>${esc(s.swt)}</dd></div><div><dt>Extras</dt><dd>${esc(s.extra)}</dd></div></dl></button>`;}).join("")}</div>`;
   }
@@ -486,7 +499,8 @@ document.addEventListener("click", e => {
   }
   if (d.scale){ A[d.scale] = +d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.scale); save(); return; }
   if (d.mx){ A[d.mx] = d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); b.closest(".mrow").classList.remove("miss"); const qd=b.closest(".q"); if (qd && !qd.querySelector(".mrow.miss")) clearErr(qd.dataset.qid); save(); return; }
-  if (d.pick){ A[d.pick] = d.v; b.parentElement.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.pick); save(); return; }
+  if (d.pick){ if (d.pick==="look_pick" && A.look_pick!==d.v){ A.look_pick=d.v; if (A.look_worst===d.v) delete A.look_worst; delete A["whynot_"+d.v]; save(); rerenderKeep(); return; } A[d.pick] = d.v; b.parentElement.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.pick); save(); return; }
+  if (d.why){ const k="whynot_"+d.why; let cur=Array.isArray(A[k])?A[k].slice():[]; cur=cur.includes(d.v)?cur.filter(x=>x!==d.v):cur.concat(d.v); A[k]=cur; b.setAttribute("aria-pressed", cur.includes(d.v)); if (cur.length) b.closest(".wnrow").classList.remove("miss"); const qd=b.closest(".q"); if (qd && !qd.querySelector(".wnrow.miss")) clearErr(qd.dataset.qid); save(); return; }
   if (d.chip){ const ta = document.querySelector(`textarea[data-text="${d.chip}"]`); const cur = ta.value.trim(); if (!cur.includes(b.textContent)){ ta.value = cur ? cur.replace(/[.\s]*$/,"") + ", " + b.textContent.toLowerCase() : b.textContent; } A[d.chip] = ta.value; clearErr(d.chip); save(); return; }
 });
 document.addEventListener("change", e => {
@@ -507,6 +521,7 @@ function missing(q){
   const v = A[q.id];
   if (q.type==="multi") return Array.isArray(v)&&v.length ? null : "Pick at least one.";
   if (q.type==="matrix") return q.rows.every(r=>A[r[0]]) ? null : "Answer every row.";
+  if (q.type==="whynot") return LOOK_ORDER.filter(k=>k!==A.look_pick).every(k=>(A["whynot_"+k]||[]).length) ? null : "Pick at least one reason for each.";
   if (q.type==="money"){ const vals = q.f.map(f=>A[f[0]]); return vals.every(x=>x!==""&&x!=null&&!isNaN(x)) ? null : "Fill in all four prices."; }
   if (q.type==="text"||q.type==="textarea") return v && String(v).trim() ? null : "Add a quick answer.";
   return v!==undefined && v!=="" ? null : "Pick one.";
@@ -515,7 +530,8 @@ function next(){
   const s = S[step]; let first = null;
   for (const q of s.qs){
     const m = missing(q); const el = document.getElementById("q-"+q.id); if (!el) continue;
-    if (m){ el.classList.add("err"); const em = el.querySelector(".em"); em.textContent = m; em.hidden = false; if (q.type==="matrix") q.rows.forEach(r=>{ if(!A[r[0]]) el.querySelector(`[data-row="${r[0]}"]`).classList.add("miss"); }); first = first || el; }
+    if (m){ el.classList.add("err"); const em = el.querySelector(".em"); em.textContent = m; em.hidden = false; if (q.type==="matrix") q.rows.forEach(r=>{ if(!A[r[0]]) el.querySelector(`[data-row="${r[0]}"]`).classList.add("miss"); });
+      if (q.type==="whynot") el.querySelectorAll(".wnrow").forEach(r=>{ if(!(A["whynot_"+r.dataset.wn]||[]).length) r.classList.add("miss"); }); first = first || el; }
   }
   if (first){ first.scrollIntoView({behavior:"smooth",block:"center"}); toast("A few answers are missing."); return; }
   if (step === S.length-1) return submit();
@@ -530,6 +546,7 @@ function flatten(){
     if (q.type==="matrix") q.rows.forEach(r=>row[r[0]] = A[r[0]]||"");
     else if (q.type==="money") q.f.forEach(f=>row[f[0]] = A[f[0]]??"");
     else if (q.type==="imgpick"||q.type==="specpick") row[q.id] = A[q.id] ? SHAKES[A[q.id]].name : "";
+    else if (q.type==="whynot") Object.keys(SHAKES).forEach(k=>{ row["whynot_"+(k==="swell"?"lovely":k)] = (A.look_pick===k) ? "(picked to buy)" : (A["whynot_"+k]||[]).join("; "); });
     else { const v = A[q.id]; row[q.id] = Array.isArray(v) ? v.join("; ") : (v ?? ""); if (q.other) row[q.id+"_other"] = A[q.id+"_other"]||""; }
   }
   const c = cur(); row.currency = c.code;
