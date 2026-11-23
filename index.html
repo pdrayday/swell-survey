@@ -118,6 +118,10 @@ main{padding-block:clamp(26px,5vw,56px) 40px}
 .seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff}
 .seg button{border:0;background:none;padding:8px 12px;border-radius:999px;font:600 13px/1 var(--body);color:var(--muted);cursor:pointer;white-space:nowrap;transition:background .2s,color .2s}
 .seg button[aria-pressed="true"]{background:var(--sel);color:#fff}
+.mrow.msc{grid-template-columns:1fr;gap:10px}
+.mrow.msc .scale button{background:#fff}
+.mrow.msc .scale button[aria-pressed="true"]{background:var(--sel)}
+.mrow.msc .ends{margin-top:0}
 .mrow.miss{box-shadow:inset 0 0 0 2px var(--pink)}
 @media (max-width:620px){.mrow{grid-template-columns:1fr}.seg{width:100%}.seg button{flex:1;padding-inline:4px}}
 
@@ -309,7 +313,7 @@ const S = [
   {id:"flavor_wish", t:"A flavor you wish existed?", type:"text", ph:"e.g. Strawberry cheesecake"}
  ]},
  {id:"ingredients", tab:"Ingredients", kick:"Part 3 of 10", title:"What's <em>inside</em> matters?", sub:"Tell us what you actually look for on the label, and what you don't care about at all.", qs:[
-  {id:"ing", t:"How much do you care about each of these?", type:"matrix", req:1, cols:["Don't care","Nice to have","Must have"], rows:[
+  {id:"ing", t:"How much do you care about each of these?", h:"1 = don't care at all, 10 = must have.", type:"matrix", n:10, lo:"Don't care", hi:"Must have", req:1, rows:[
     ["ing_protein","High protein (30g+)"],["ing_lowcal","Low calories"],["ing_lowsugar","Low sugar"],["ing_noartificial","No artificial sweeteners"],["ing_short","Short, simple ingredient list"],["ing_lactose","Lactose-free (no bloating)"],["ing_collagen","Collagen peptides","hair, skin, nails, joints"],["ing_iron","Iron + vitamin C","energy, fewer tired days"],["ing_probiotic","Probiotics","gut health"],["ing_creamy","Thick, creamy texture"],["ing_shelf","Doesn't need the fridge until opened"]]},
   {id:"avoid", t:"Any of these make you put a shake back on the shelf?", h:"Check all that apply.", type:"multi", req:1, o:["High calories (200+)","5g+ total sugar","Any added sugar","Less than 15g protein","Artificial sweeteners (sucralose, ace-K)","Carrageenan","Gums","Seed oils","Dairy or lactose","Long ingredient list","None of these"]},
   {id:"protein_amt", t:"How much protein would you want in one bottle?", h:"Check all that apply.", type:"multi", req:1, o:["15–20g","25–30g","40g","50g","Depends on the day"]},
@@ -325,13 +329,12 @@ const S = [
   {id:"spec_why", t:"What made you pick that one?", type:"text", req:1, ph:"One sentence is perfect"}
  ]},
  {id:"brand", tab:"Brand", kick:"Part 6 of 10", title:"Meet <em>Lovely</em>", sub:"A premium protein shake that tastes like a milkshake. Lovely comes in the pink 14oz bottle; Lovely 50g comes in the bigger light-blue 16oz bottle. Both have collagen peptides, iron + vitamin C, and zero lactose.", show:"brand", qs:[
-  {id:"first_word", t:"First impression, in one word?", type:"text", req:1, ph:"One word"},
   {id:"words", t:"Which words best describe how Lovely looks?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Premium","Clean","Aesthetic","Feminine","Cute","Girly","Healthy","Fun","Trustworthy","Expensive-looking","Gym-ready","Luxury","Cheap","Boring","Childish","Medical","Too pink"]},
   {id:"r_premium", t:"How premium does Lovely look?", type:"scale", n:10, req:1, lo:"Cheap", hi:"Very premium"},
   {id:"r_appetite", t:"How tasty does it look?", type:"scale", n:10, req:1, lo:"Not at all", hi:"I want one now"},
   {id:"r_forme", t:"How much does Lovely feel made for someone like you?", type:"scale", n:10, req:1, lo:"Not for me", hi:"Made for me"},
-  {id:"colors", t:"How do you feel about the colors?", type:"matrix", req:1, cols:["Don't like","It's fine","Love it"], rows:[["color_pink","Pink bottle (30g)"],["color_blue","Light-blue bottle (50g)"],["color_together","Pink and blue together as a brand"]]},
-  {id:"bottle_pick", t:"Which bottle would you grab?", type:"single", req:1, o:["Pink · 30g · 14oz","Blue · 50g · 16oz","Either, depends on the day"]},
+  {id:"colors", t:"How likely would you buy each of these, just based on the color?", h:"1 = hard no, 10 = very likely.", type:"matrix", n:10, lo:"Hard no", hi:"Very likely", req:1, rows:[["color_pink","Pink bottle (30g)"],["color_blue","Light-blue bottle (50g)"],["color_together","Pink and blue together as a brand"]]},
+  {id:"bottle_pick", t:"Which bottle would you grab?", h:"Check all that apply.", type:"multi", req:1, o:["Pink · 30g · 14oz","Blue · 50g · 16oz"]},
   {id:"public", t:"Would you carry the pink bottle in public, like at the gym or in class?", type:"single", req:1, o:["Yes, proudly","Yes, it's fine","I'd rather carry the blue one","No"]},
   {id:"who_for", t:"Who do you think Lovely is for?", h:"Check all that apply.", type:"multi", req:1, o:["Mostly women","Mostly men","Everyone"]},
   {id:"name_fit", t:"How much do you like the name \"Lovely\"?", type:"scale", n:5, req:1, lo:"Dislike", hi:"Love it"},
@@ -354,7 +357,7 @@ const S = [
   {id:"per_week", t:"If a fridge was right where you already go, how many shakes would you grab per week?", type:"single", req:1, o:["0","1","2–3","4–5","6+"]},
   {id:"locations", t:"Where should Lovely fridges go?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
   {id:"loc_specific", t:"Name a specific place near you where you'd want a Lovely fridge.", type:"text", ph:"e.g. The BYU Wilk, Club Pilates Lehi"},
-  {id:"sub_box", t:"Would you subscribe to a 12 or 24 box of Lovely every 2 or 4 weeks?", h:"Subscribers pay $4.25 a shake instead of $5, earn double points, and can skip or swap anytime.", type:"single", req:1, o:["Yes","Maybe","No, I'd rather buy as I go"]}
+  {id:"sub_box", t:"How likely are you to subscribe to a 12 or 24 box of Lovely every 2 or 4 weeks?", h:"Subscribers pay $4.25 a shake instead of $5, earn double points, and can skip or swap anytime.", type:"scale", n:10, req:1, lo:"Hard no", hi:"Very likely"}
  ]},
  {id:"share", tab:"Share", kick:"Part 9 of 10", title:"Would you <em>show it off</em>?", sub:"Say Lovely tasted amazing and made you feel good.", qs:[
   {id:"post", t:"Would you post about Lovely?", type:"single", req:1, o:["Definitely","Probably","Maybe","Probably not","No, I don't post brands"]},
@@ -362,8 +365,8 @@ const S = [
   {id:"aesthetic", t:"The bottle is something I'd want to be seen with.", type:"scale", n:5, req:1, lo:"Disagree", hi:"Agree"},
   {id:"nps", t:"How likely are you to recommend Lovely to a friend?", h:"0 = not at all likely, 10 = extremely likely.", type:"scale", n:11, start:0, req:1, lo:"Not at all", hi:"Extremely"},
   {id:"influence", t:"What actually gets you to try a new drink?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["A friend recommends it","TikTok creators","Instagram influencers","My gym or Pilates instructor","Seeing it in a store","A free sample","Reviews","A good deal or discount"]},
-  {id:"ambassador", t:"Would you want to be a Lovely ambassador and earn free shakes or commission?", type:"single", req:1, o:["Yes!","Maybe","No"]},
-  {id:"handle", t:"Your Instagram or TikTok handle (optional)", h:"Only if you said yes or maybe above.", type:"text", ph:"@yourhandle", showIf:a=>a.ambassador==="Yes!"||a.ambassador==="Maybe"}
+  {id:"ambassador", t:"How likely are you to want to be a Lovely ambassador and earn free shakes or commission?", type:"scale", n:10, req:1, lo:"Hard no", hi:"Very likely"},
+  {id:"handle", t:"Your Instagram or TikTok handle (optional)", h:"So we can reach out about ambassador perks.", type:"text", ph:"@yourhandle", showIf:a=>a.ambassador>=6}
  ]},
  {id:"final", tab:"Last word", kick:"Part 10 of 10", title:"Your <em>last word</em>", sub:"This is the most useful part for us. Be as honest as you like.", qs:[
   {id:"thoughts", t:"Any other thoughts on Lovely?", h:"Love it, hate it, what would make you buy it on day one?", type:"textarea", req:1, ph:"Type anything…"},
@@ -414,7 +417,9 @@ function renderQ(q, n){
     const st = q.start ?? 1; let bs = "";
     for (let i=st;i<st+q.n;i++) bs += `<button type="button" aria-pressed="${A[q.id]===i}" data-scale="${q.id}" data-v="${i}">${i}</button>`;
     b = `<div class="scale n${q.n}" style="--n:${q.n}">${bs}</div><div class="ends"><span>${esc(q.lo)}</span><span>${esc(q.hi)}</span></div>`;
-  } else if (T==="matrix"){
+  } else if (T==="matrix" && q.n){
+    b = `<div class="mx">${q.rows.map(r=>{let bs="";for(let v=1;v<=q.n;v++) bs+=`<button type="button" aria-pressed="${A[r[0]]===v}" data-mx="${r[0]}" data-v="${v}">${v}</button>`;return `<div class="mrow msc" data-row="${r[0]}"><div><b>${esc(r[1])}</b>${r[2]?`<small>${esc(r[2])}</small>`:""}</div><div class="scale" style="--n:${q.n}">${bs}</div><div class="ends"><span>${esc(q.lo)}</span><span>${esc(q.hi)}</span></div></div>`;}).join("")}</div>`;
+} else if (T==="matrix"){
     b = `<div class="mx">${q.rows.map(r=>`<div class="mrow" data-row="${r[0]}"><div><b>${esc(r[1])}</b>${r[2]?`<small>${esc(r[2])}</small>`:""}</div><div class="seg">${q.cols.map(c=>`<button type="button" aria-pressed="${A[r[0]]===c}" data-mx="${r[0]}" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div></div>`).join("")}</div>`;
   } else if (T==="text"||T==="email"){
     b = `<input type="${T==="email"?"email":"text"}" data-text="${q.id}" placeholder="${esc(q.ph||"")}" value="${esc(A[q.id]||"")}" ${T==="email"?'autocomplete="email" inputmode="email"':""}>`;
@@ -497,8 +502,8 @@ document.addEventListener("click", e => {
     }
     clearErr(qid); save(); return;
   }
-  if (d.scale){ A[d.scale] = +d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.scale); save(); return; }
-  if (d.mx){ A[d.mx] = d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); b.closest(".mrow").classList.remove("miss"); const qd=b.closest(".q"); if (qd && !qd.querySelector(".mrow.miss")) clearErr(qd.dataset.qid); save(); return; }
+  if (d.scale){ A[d.scale] = +d.v; if (d.scale==="ambassador"){ save(); rerenderKeep(); return; } b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.scale); save(); return; }
+  if (d.mx){ A[d.mx] = /^\d+$/.test(d.v) ? +d.v : d.v; b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); b.closest(".mrow").classList.remove("miss"); const qd=b.closest(".q"); if (qd && !qd.querySelector(".mrow.miss")) clearErr(qd.dataset.qid); save(); return; }
   if (d.pick){ if (d.pick==="look_pick" && A.look_pick!==d.v){ A.look_pick=d.v; if (A.look_worst===d.v) delete A.look_worst; delete A["whynot_"+d.v]; save(); rerenderKeep(); return; } A[d.pick] = d.v; b.parentElement.querySelectorAll("[data-pick]").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr(d.pick); save(); return; }
   if (d.why){ const k="whynot_"+d.why; let cur=Array.isArray(A[k])?A[k].slice():[]; cur=cur.includes(d.v)?cur.filter(x=>x!==d.v):cur.concat(d.v); A[k]=cur; b.setAttribute("aria-pressed", cur.includes(d.v)); if (cur.length) b.closest(".wnrow").classList.remove("miss"); const qd=b.closest(".q"); if (qd && !qd.querySelector(".wnrow.miss")) clearErr(qd.dataset.qid); save(); return; }
   if (d.chip){ const ta = document.querySelector(`textarea[data-text="${d.chip}"]`); const cur = ta.value.trim(); if (!cur.includes(b.textContent)){ ta.value = cur ? cur.replace(/[.\s]*$/,"") + ", " + b.textContent.toLowerCase() : b.textContent; } A[d.chip] = ta.value; clearErr(d.chip); save(); return; }
