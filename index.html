@@ -275,7 +275,7 @@ function L(str){
 
 /* ---------- survey definition ---------- */
 const S = [
- {id:"you", tab:"About you", kick:"Part 1 of 10", title:"First, a little <em>about you</em>", sub:"So we know who's saying what. Nothing here identifies you, and anything marked optional can be skipped.", qs:[
+ {id:"you", tab:"About you", kick:"Part 1 of 10", title:"First, a little <em>about you</em>", sub:"So we know who's saying what. Nothing here identifies you.", qs:[
   {id:"gender", t:"I am a…", type:"single", req:1, o:["Woman","Man","Non-binary","Prefer not to say"]},
   {id:"age", t:"How old are you?", type:"single", req:1, o:["Under 18","18–20","21–24","25–29","30–34","35+"]},
   {id:"life", t:"What describes you right now?", h:"Check all that apply.", type:"multi", req:1, o:["College student","High school student","Working full-time","Working part-time","Stay-at-home parent"], other:1},
@@ -283,10 +283,6 @@ const S = [
   {id:"city", t:"What city (and state or region) do you live in?", h:"Helps us decide where the first Lovely fridges go.", type:"text", req:1, ph:"e.g. Provo, UT"},
   {id:"workout", t:"How often do you work out?", type:"single", req:1, o:["Rarely or never","1–2 times a week","3–4 times a week","5+ times a week"]},
   {id:"workout_type", t:"What kind of workouts do you do?", h:"Check all that apply.", type:"multi", o:["Weightlifting","Pilates or reformer","Barre","Running","Yoga","Group classes (HIIT, Orangetheory, F45)","Cycling or spin","Team sports","Walking or hiking","None"]},
-  {id:"education", t:"Highest level of school you've finished?", type:"single", req:1, o:["High school or less","Some college","Associate degree","Bachelor's degree","Graduate degree","Prefer not to say"]},
-  {id:"living", t:"Who do you live with?", type:"single", req:1, o:["Alone","Roommates","Partner or spouse","Partner and kids","Parents or family","Prefer not to say"]},
-  {id:"income", t:"Roughly, what's your personal yearly income?", h:"Optional. Shown in your currency.", type:"single", o:["Under $25k","$25k–50k","$50k–75k","$75k–100k","$100k–150k","$150k+","Prefer not to say"]},
-  {id:"ethnicity", t:"How do you describe your ethnicity?", h:"Optional. Check all that apply.", type:"multi", o:["Asian","Black or African American","Hispanic or Latino","Middle Eastern or North African","Native American or Alaska Native","Pacific Islander","White","Prefer not to say"]},
   {id:"goal", t:"What are your health goals right now?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Lose weight or stay lean","Build muscle","Tone up","Maintain and feel good","More energy","Not focused on it"]}
  ]},
  {id:"habits", tab:"Your shakes", kick:"Part 2 of 10", title:"Your protein <em>habits</em>", sub:"Powder or ready-to-drink bottles both count.", qs:[
