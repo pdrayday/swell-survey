@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Swell Taste Panel</title>
-<meta name="description" content="A 7-minute survey to help shape Swell before launch.">
+<title>Lovely Taste Panel</title>
+<meta name="description" content="A 7-minute survey to help shape Lovely before launch.">
 <meta name="theme-color" content="#f4cddb">
 <meta name="color-scheme" content="only light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,7 +46,7 @@ p{margin:0}
 body::before{content:"";position:fixed;z-index:60;left:0;right:0;top:0;height:env(safe-area-inset-top,0px);background:var(--bg)}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(244,205,219,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 header.top .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;height:64px;padding-inline:clamp(14px,3vw,28px)}
-.logo{flex:none;display:flex}.logo img{height:32px;width:auto}
+.logo{flex:none;display:flex}.logo img{height:40px;width:auto;filter:brightness(0) invert(1)}
 .tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:none;border:0;background:none;color:#fff;font:600 15px/1 var(--body);padding:10px 14px;border-radius:999px;white-space:nowrap;cursor:pointer;opacity:.62;transition:background .2s,color .2s,opacity .2s}
@@ -71,6 +71,7 @@ main{padding-block:clamp(26px,5vw,56px) 40px}
 .hero h1{font-size:clamp(46px,7.4vw,84px)}
 .hero .lead{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:32em}
 .stage{border-radius:28px;background:radial-gradient(ellipse 80% 70% at 50% 35%,#fff 0%,var(--stage) 72%);overflow:hidden}
+.hero .stage img{width:100%}
 .hero .stage.lineup{display:flex;justify-content:center;align-items:flex-end;gap:clamp(4px,1.5vw,14px);padding:34px 12px 0}
 .hero .stage.lineup img{height:clamp(170px,30vw,300px);width:auto}
 .hero .stage.lineup img:nth-child(3){height:clamp(195px,34vw,340px)}
@@ -209,7 +210,7 @@ textarea{min-height:110px;resize:vertical}
 .done-card{text-align:center;display:grid;gap:18px;justify-items:center;padding-block:30px}
 .done-card h1{font-size:clamp(48px,8vw,90px)}
 .done-card .stage{width:min(420px,100%);padding:24px 20px 0;display:flex;justify-content:center;align-items:flex-end;gap:6px}
-.done-card .stage img{height:240px;width:auto}
+.done-card .stage img{height:300px;width:auto}
 .done-card .stage img+img{height:270px}
 .confetti{position:fixed;pointer-events:none;z-index:80;left:0;top:0}
 .confetti i{position:absolute;width:9px;height:14px;border-radius:2px;animation:conf 1.4s cubic-bezier(.2,.6,.3,1) forwards}
@@ -222,14 +223,14 @@ footer{padding:20px 0 40px;text-align:center;font-size:13px;color:var(--muted)}
 <body>
 <header class="top">
   <div class="in">
-    <span class="logo"><img src="img/logo_white.svg" alt="Swell"></span>
+    <span class="logo"><img src="img/l_logo.png" alt="Lovely"></span>
     <nav class="tabs" id="tabs" aria-label="Survey sections"></nav>
     <span class="count" id="count"></span>
   </div>
   <div class="prog"><i id="bar"></i></div>
 </header>
 <main class="wrap" id="app" aria-live="polite"></main>
-<footer>Swell · drinkswell — livewell · Your answers are anonymous unless you choose to leave an email.</footer>
+<footer>Lovely · #drinklovely · Your answers are anonymous unless you choose to leave an email.</footer>
 
 <script>
 (function(){
@@ -240,7 +241,7 @@ const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Mat
 
 /* ---------- the six shakes for the head-to-head questions ---------- */
 const SHAKES = {
-  swell:   {name:"Swell",                       imgs:["img/s30_choc.webp","img/s50_choc.webp"], size:"14oz", cal:"170", pro:"30g", sug:"4g total / 0g added", swt:"Allulose, monk fruit, stevia, a little sucralose", extra:"Collagen peptides, iron (25% DV), lactose-free"},
+  swell:   {name:"Lovely",                       imgs:["img/l_sizes.webp"], size:"14oz", cal:"170", pro:"30g", sug:"4g total / 0g added", swt:"Allulose, monk fruit, stevia, a little sucralose", extra:"Collagen peptides, iron (25% DV), lactose-free"},
   alani:   {name:"Alani Nu Protein Shake",      imgs:["img/c_alani.webp"],    size:"12oz", cal:"160", pro:"30g", sug:"3g total / 2g added", swt:"Sucralose, ace-K", extra:"None"},
   vital:   {name:"Vital Proteins Collagen & Protein", imgs:["img/c_vital.webp"], size:"11oz", cal:"Not listed", pro:"30g (10g collagen)", sug:"0g added", swt:"No artificial sweeteners", extra:"10g collagen"},
   boost:   {name:"Boost Women",                 imgs:["img/c_boost.webp"],    size:"8oz",  cal:"180", pro:"15g", sug:"Not listed", swt:"Sucralose (plus carrageenan)", extra:"Iron"},
@@ -279,7 +280,7 @@ const S = [
   {id:"age", t:"How old are you?", type:"single", req:1, o:["Under 18","18–20","21–24","25–29","30–34","35+"]},
   {id:"life", t:"What describes you right now?", h:"Check all that apply.", type:"multi", req:1, o:["College student","High school student","Working full-time","Working part-time","Stay-at-home parent"], other:1},
   {id:"country", t:"What country do you live in?", h:"Prices later in the survey will show in your currency.", type:"select", req:1, o:COUNTRIES.map(c=>c[0])},
-  {id:"city", t:"What city (and state or region) do you live in?", h:"Helps us decide where the first Swell fridges go.", type:"text", req:1, ph:"e.g. Provo, UT"},
+  {id:"city", t:"What city (and state or region) do you live in?", h:"Helps us decide where the first Lovely fridges go.", type:"text", req:1, ph:"e.g. Provo, UT"},
   {id:"workout", t:"How often do you work out?", type:"single", req:1, o:["Rarely or never","1–2 times a week","3–4 times a week","5+ times a week"]},
   {id:"workout_type", t:"What kind of workouts do you do?", h:"Check all that apply.", type:"multi", o:["Weightlifting","Pilates or reformer","Barre","Running","Yoga","Group classes (HIIT, Orangetheory, F45)","Cycling or spin","Team sports","Walking or hiking","None"]},
   {id:"education", t:"Highest level of school you've finished?", type:"single", req:1, o:["High school or less","Some college","Associate degree","Bachelor's degree","Graduate degree","Prefer not to say"]},
@@ -298,7 +299,7 @@ const S = [
   {id:"dislike", t:"What do you DISLIKE about protein shakes?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Chalky or gritty","Artificial aftertaste","Too sweet","Thin or watery","Bloating or upset stomach","Too many ingredients I can't pronounce","Too expensive","Boring or ugly packaging","Never cold when I want one","Doesn't keep me full","Too many calories"], other:1},
   {id:"dealbreaker", t:"What would make you never buy a shake again?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Bad taste or aftertaste","Bloating or stomach issues","Price","Ingredient list","Sugar content","Not enough protein","Packaging looks cheap or medical"]},
   {id:"taste_wish", t:"How do you wish protein shakes tasted?", h:"Tap any that fit, then add your own words.", type:"textarea", req:1, chips:["Like a real milkshake","Thicker and creamier","Less sweet","Like an iced latte","Like melted ice cream","Light and refreshing","No aftertaste at all"], ph:"Describe your perfect shake…"},
-  {id:"flavor_first", t:"Swell comes in 5 flavors. Which would you buy?", h:"Check all that apply.", type:"multi", req:1, o:["Chocolate","Vanilla","Cookie Butter","Matcha","Peanut Butter"]},
+  {id:"flavor_first", t:"Lovely comes in 5 flavors. Which would you buy?", h:"Check all that apply.", type:"multi", req:1, o:["Chocolate","Vanilla","Cookie Butter","Matcha","Peanut Butter"]},
   {id:"flavor_wish", t:"A flavor you wish existed?", type:"text", ph:"e.g. Strawberry cheesecake"}
  ]},
  {id:"ingredients", tab:"Ingredients", kick:"Part 3 of 10", title:"What's <em>inside</em> matters?", sub:"Tell us what you actually look for on the label, and what you don't care about at all.", qs:[
@@ -317,51 +318,51 @@ const S = [
   {id:"spec_pick", t:"Based ONLY on what's inside, which one would you buy?", type:"specpick", req:1},
   {id:"spec_why", t:"What made you pick that one?", type:"text", req:1, ph:"One sentence is perfect"}
  ]},
- {id:"brand", tab:"Brand", kick:"Part 6 of 10", title:"Meet <em>Swell</em>", sub:"A premium protein shake that tastes like a milkshake. Swell 30g comes in the pink 14oz bottle; Swell 50g comes in the bigger light-blue 16oz bottle. Both have collagen peptides, iron + vitamin C, and zero lactose.", show:"brand", qs:[
+ {id:"brand", tab:"Brand", kick:"Part 6 of 10", title:"Meet <em>Lovely</em>", sub:"A premium protein shake that tastes like a milkshake. Lovely comes in the pink 14oz bottle; Lovely 50g comes in the bigger light-blue 16oz bottle. Both have collagen peptides, iron + vitamin C, and zero lactose.", show:"brand", qs:[
   {id:"first_word", t:"First impression, in one word?", type:"text", req:1, ph:"One word"},
-  {id:"words", t:"Which words best describe how Swell looks?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Premium","Clean","Aesthetic","Feminine","Cute","Girly","Healthy","Fun","Trustworthy","Expensive-looking","Gym-ready","Luxury","Cheap","Boring","Childish","Medical","Too pink"]},
-  {id:"r_premium", t:"How premium does Swell look?", type:"scale", n:10, req:1, lo:"Cheap", hi:"Very premium"},
+  {id:"words", t:"Which words best describe how Lovely looks?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Premium","Clean","Aesthetic","Feminine","Cute","Girly","Healthy","Fun","Trustworthy","Expensive-looking","Gym-ready","Luxury","Cheap","Boring","Childish","Medical","Too pink"]},
+  {id:"r_premium", t:"How premium does Lovely look?", type:"scale", n:10, req:1, lo:"Cheap", hi:"Very premium"},
   {id:"r_appetite", t:"How tasty does it look?", type:"scale", n:10, req:1, lo:"Not at all", hi:"I want one now"},
-  {id:"r_forme", t:"How much does Swell feel made for someone like you?", type:"scale", n:10, req:1, lo:"Not for me", hi:"Made for me"},
+  {id:"r_forme", t:"How much does Lovely feel made for someone like you?", type:"scale", n:10, req:1, lo:"Not for me", hi:"Made for me"},
   {id:"colors", t:"How do you feel about the colors?", type:"matrix", req:1, cols:["Don't like","It's fine","Love it"], rows:[["color_pink","Pink bottle (30g)"],["color_blue","Light-blue bottle (50g)"],["color_together","Pink and blue together as a brand"]]},
   {id:"bottle_pick", t:"Which bottle would you grab?", type:"single", req:1, o:["Pink · 30g · 14oz","Blue · 50g · 16oz","Either, depends on the day"]},
   {id:"public", t:"Would you carry the pink bottle in public, like at the gym or in class?", type:"single", req:1, o:["Yes, proudly","Yes, it's fine","I'd rather carry the blue one","No"]},
-  {id:"who_for", t:"Who do you think Swell is for?", h:"Check all that apply.", type:"multi", req:1, o:["Mostly women","Mostly men","Everyone"]},
-  {id:"name_fit", t:"How much do you like the name \"Swell\"?", type:"scale", n:5, req:1, lo:"Dislike", hi:"Love it"},
-  {id:"name_pick", t:"Which of these names do you like?", h:"Check all that apply.", type:"multi", req:1, o:["Swell","Lovely","Luvely","Luvlie","Starlie","Payton","None of these"], other:1, otherLabel:"Suggest a name"},
+  {id:"who_for", t:"Who do you think Lovely is for?", h:"Check all that apply.", type:"multi", req:1, o:["Mostly women","Mostly men","Everyone"]},
+  {id:"name_fit", t:"How much do you like the name \"Lovely\"?", type:"scale", n:5, req:1, lo:"Dislike", hi:"Love it"},
+  {id:"name_pick", t:"Which of these names do you like?", h:"Check all that apply.", type:"multi", req:1, o:["Lovely","Swell","Luvely","Luvlie","Starlie","Payton","None of these"], other:1, otherLabel:"Suggest a name"},
   {id:"change", t:"If you could change ONE thing about the look, what would it be?", type:"text", ph:"Color, bottle shape, logo, font…"}
  ]},
- {id:"price", tab:"Pricing", kick:"Part 7 of 10", title:"What's it <em>worth</em> to you?", sub:"Picture a 14oz Swell bottle: 30g protein, 170 calories, tastes like a milkshake, with collagen, iron and zero lactose. There are no right answers.", qs:[
-  {id:"vw", t:"At what price per bottle would Swell be…", h:"Type an amount for each.", type:"money", req:1, f:[["vw_cheap","…so cheap you'd doubt the quality?"],["vw_bargain","…a great deal?"],["vw_pricey","…getting expensive, but you'd still buy?"],["vw_toomuch","…too expensive to consider?"]]},
+ {id:"price", tab:"Pricing", kick:"Part 7 of 10", title:"What's it <em>worth</em> to you?", sub:"Picture a 14oz Lovely bottle: 30g protein, 170 calories, tastes like a milkshake, with collagen, iron and zero lactose. There are no right answers.", qs:[
+  {id:"vw", t:"At what price per bottle would Lovely be…", h:"Type an amount for each.", type:"money", req:1, f:[["vw_cheap","…so cheap you'd doubt the quality?"],["vw_bargain","…a great deal?"],["vw_pricey","…getting expensive, but you'd still buy?"],["vw_toomuch","…too expensive to consider?"]]},
   {id:"box_price", t:"The most you'd pay for a 12-bottle box delivered to your door?", type:"single", req:1, o:["Under $30","$30–39","$40–49","$50–59","$60+"]},
-  {id:"single_price", t:"The most you'd pay for ONE cold Swell from a fridge at your gym, studio or campus?", type:"single", req:1, o:["Under $3","$3–3.99","$4–4.99","$5–5.99","$6–6.99","$7+"]},
-  {id:"intent", t:"If one Swell was $5, or $4.25 each when you subscribe to a box, how likely are you to buy?", type:"single", req:1, o:["Definitely would","Probably would","Might or might not","Probably not","Definitely not"]},
-  {id:"vs_fairlife", t:"Compared with fairlife Core Power, how much more would you pay for Swell if you liked it more?", type:"single", req:1, o:["Nothing more, same price or I'd buy fairlife","Up to $0.25 more","Up to $0.50 more","Up to $1 more","$1+ more"]}
+  {id:"single_price", t:"The most you'd pay for ONE cold Lovely from a fridge at your gym, studio or campus?", type:"single", req:1, o:["Under $3","$3–3.99","$4–4.99","$5–5.99","$6–6.99","$7+"]},
+  {id:"intent", t:"If one Lovely was $5, or $4.25 each when you subscribe to a box, how likely are you to buy?", type:"single", req:1, o:["Definitely would","Probably would","Might or might not","Probably not","Definitely not"]},
+  {id:"vs_fairlife", t:"Compared with fairlife Core Power, how much more would you pay for Lovely if you liked it more?", type:"single", req:1, o:["Nothing more, same price or I'd buy fairlife","Up to $0.25 more","Up to $0.50 more","Up to $1 more","$1+ more"]}
  ]},
- {id:"fridges", tab:"Membership", kick:"Part 8 of 10", title:"Swell <em>fridges</em> + membership", sub:"Here's the idea: three ways to be a Swell member. Tell us honestly which, if any, you'd use.", show:"fridge", qs:[
-  {id:"mem_interest", t:"Overall, how interested are you in a Swell membership?", type:"scale", n:5, req:1, lo:"Not at all", hi:"Sign me up"},
-  {id:"mem_plan", t:"Which membership would you most likely sign up for?", h:"See the three plans above.", type:"single", req:1, o:["Swell Pass","Fridge Unlimited","Box Club","Fridge Unlimited + Box Club","None, I'd just buy as I go"]},
-  {id:"price_pass", t:"Swell Pass: the most you'd pay per month for 5 fridge Swells included, member pricing on extras, and points toward free Swells?", h:"Extras are $4.25 instead of $5. Every $1 earns 1 point, and 50 points is a free Swell.", type:"single", req:1, o:["$0, only if it's free","$9","$14","$19","$24","$29+"]},
-  {id:"price_fridge", t:"Fridge Unlimited: the most you'd pay per month for unlimited cold Swells at any Swell fridge?", h:"For reference, one Swell a day at $5 each is about $150 a month.", type:"single", req:1, o:["I wouldn't pay for this","Under $30","$30–49","$50–69","$70–89","$90–119","$120+"]},
+ {id:"fridges", tab:"Membership", kick:"Part 8 of 10", title:"Lovely <em>fridges</em> + membership", sub:"Here's the idea: three ways to be a Lovely member. Tell us honestly which, if any, you'd use.", show:"fridge", qs:[
+  {id:"mem_interest", t:"Overall, how interested are you in a Lovely membership?", type:"scale", n:5, req:1, lo:"Not at all", hi:"Sign me up"},
+  {id:"mem_plan", t:"Which membership would you most likely sign up for?", h:"See the three plans above.", type:"single", req:1, o:["Lovely Pass","Fridge Unlimited","Box Club","Fridge Unlimited + Box Club","None, I'd just buy as I go"]},
+  {id:"price_pass", t:"Lovely Pass: the most you'd pay per month for 5 fridge shakes included, member pricing on extras, and points toward free shakes?", h:"Extras are $4.25 instead of $5. Every $1 earns 1 point, and 50 points is a free shake.", type:"single", req:1, o:["$0, only if it's free","$9","$14","$19","$24","$29+"]},
+  {id:"price_fridge", t:"Fridge Unlimited: the most you'd pay per month for unlimited cold shakes at any Lovely fridge?", h:"For reference, one shake a day at $5 each is about $150 a month.", type:"single", req:1, o:["I wouldn't pay for this","Under $30","$30–49","$50–69","$70–89","$90–119","$120+"]},
   {id:"price_box", t:"Box Club: the most you'd pay per month to order unlimited build-a-boxes to your door at member pricing with free shipping?", h:"You'd still pay for each box, just less, and shipping is always free.", type:"single", req:1, o:["I wouldn't pay for this","$4.99","$9.99","$14.99","$19.99","$24.99+"]},
-  {id:"mem_value", t:"What would make the membership worth it?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Cheaper price per bottle","A free Swell every so often","Points toward free Swells","Free shipping on boxes","First access to new flavors","Members-only flavors","Swell merch","Fridge access near me"], other:1},
-  {id:"per_week", t:"If a fridge was right where you already go, how many Swells would you grab per week?", type:"single", req:1, o:["0","1","2–3","4–5","6+"]},
-  {id:"locations", t:"Where should Swell fridges go?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
-  {id:"loc_specific", t:"Name a specific place near you where you'd want a Swell fridge.", type:"text", ph:"e.g. The BYU Wilk, Club Pilates Lehi"},
-  {id:"sub_box", t:"Would you subscribe to a 12 or 24 box of Swell every 2 or 4 weeks?", h:"Subscribers pay $4.25 a Swell instead of $5, earn double points, and can skip or swap anytime.", type:"single", req:1, o:["Yes","Maybe","No, I'd rather buy as I go"]}
+  {id:"mem_value", t:"What would make the membership worth it?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["Cheaper price per bottle","A free shake every so often","Points toward free shakes","Free shipping on boxes","First access to new flavors","Members-only flavors","Lovely merch","Fridge access near me"], other:1},
+  {id:"per_week", t:"If a fridge was right where you already go, how many shakes would you grab per week?", type:"single", req:1, o:["0","1","2–3","4–5","6+"]},
+  {id:"locations", t:"Where should Lovely fridges go?", h:"Pick your top 5.", type:"multi", max:5, req:1, o:["Pilates or barre studio","Gym","Yoga studio","College campus or library","Dorm","Office or coworking space","Apartment complex","Coffee shop","Grocery store","Gas station","Airport","Hospital (staff)","Sports facility","Hotel"]},
+  {id:"loc_specific", t:"Name a specific place near you where you'd want a Lovely fridge.", type:"text", ph:"e.g. The BYU Wilk, Club Pilates Lehi"},
+  {id:"sub_box", t:"Would you subscribe to a 12 or 24 box of Lovely every 2 or 4 weeks?", h:"Subscribers pay $4.25 a shake instead of $5, earn double points, and can skip or swap anytime.", type:"single", req:1, o:["Yes","Maybe","No, I'd rather buy as I go"]}
  ]},
- {id:"share", tab:"Share", kick:"Part 9 of 10", title:"Would you <em>show it off</em>?", sub:"Say Swell tasted amazing and made you feel good.", qs:[
-  {id:"post", t:"Would you post about Swell?", type:"single", req:1, o:["Definitely","Probably","Maybe","Probably not","No, I don't post brands"]},
+ {id:"share", tab:"Share", kick:"Part 9 of 10", title:"Would you <em>show it off</em>?", sub:"Say Lovely tasted amazing and made you feel good.", qs:[
+  {id:"post", t:"Would you post about Lovely?", type:"single", req:1, o:["Definitely","Probably","Maybe","Probably not","No, I don't post brands"]},
   {id:"post_where", t:"Where would you post it?", h:"Check all that apply.", type:"multi", o:["Instagram story","Instagram post","TikTok","Snapchat","Pinterest","BeReal","Group chat","Nowhere"]},
   {id:"aesthetic", t:"The bottle is something I'd want to be seen with.", type:"scale", n:5, req:1, lo:"Disagree", hi:"Agree"},
-  {id:"nps", t:"How likely are you to recommend Swell to a friend?", h:"0 = not at all likely, 10 = extremely likely.", type:"scale", n:11, start:0, req:1, lo:"Not at all", hi:"Extremely"},
+  {id:"nps", t:"How likely are you to recommend Lovely to a friend?", h:"0 = not at all likely, 10 = extremely likely.", type:"scale", n:11, start:0, req:1, lo:"Not at all", hi:"Extremely"},
   {id:"influence", t:"What actually gets you to try a new drink?", h:"Pick your top 3.", type:"multi", max:3, req:1, o:["A friend recommends it","TikTok creators","Instagram influencers","My gym or Pilates instructor","Seeing it in a store","A free sample","Reviews","A good deal or discount"]},
-  {id:"ambassador", t:"Would you want to be a Swell ambassador and earn free shakes or commission?", type:"single", req:1, o:["Yes!","Maybe","No"]},
+  {id:"ambassador", t:"Would you want to be a Lovely ambassador and earn free shakes or commission?", type:"single", req:1, o:["Yes!","Maybe","No"]},
   {id:"handle", t:"Your Instagram or TikTok handle (optional)", h:"Only if you said yes or maybe above.", type:"text", ph:"@yourhandle", showIf:a=>a.ambassador==="Yes!"||a.ambassador==="Maybe"}
  ]},
  {id:"final", tab:"Last word", kick:"Part 10 of 10", title:"Your <em>last word</em>", sub:"This is the most useful part for us. Be as honest as you like.", qs:[
-  {id:"thoughts", t:"Any other thoughts on Swell?", h:"Love it, hate it, what would make you buy it on day one?", type:"textarea", req:1, ph:"Type anything…"},
-  {id:"email", t:"Want early access and a free sample at launch? Leave your email.", h:"Optional. We'll only use it for Swell launch news.", type:"email", ph:"you@email.com"}
+  {id:"thoughts", t:"Any other thoughts on Lovely?", h:"Love it, hate it, what would make you buy it on day one?", type:"textarea", req:1, ph:"Type anything…"},
+  {id:"email", t:"Want early access and a free sample at launch? Leave your email.", h:"Optional. We'll only use it for Lovely launch news.", type:"email", ph:"you@email.com"}
  ]}
 ];
 
@@ -426,11 +427,11 @@ function renderQ(q, n){
 
 function symbol(){ try { return new Intl.NumberFormat(undefined,{style:"currency",currency:cur().code}).formatToParts(0).find(p=>p.type==="currency").value; } catch(e){ return "$"; } }
 function showcase(kind){
-  if (kind==="brand") return `<div class="show"><figure class="stage"><img src="img/s30_choc.webp" alt="Swell 30g chocolate, pink 14oz bottle"></figure><figure class="stage blue"><img src="img/s50_choc.webp" alt="Swell 50g chocolate, light-blue 16oz bottle"></figure></div>
-  <div class="show"><div class="photo"><img src="img/ugc_reformer.webp" alt="Swell at a reformer Pilates class" loading="lazy"></div><div class="photo"><img src="img/ugc_vanilla.webp" alt="Swell 30g vanilla in hand" loading="lazy"></div></div>`;
-  if (kind==="fridge") return `<div class="concept"><div class="photo"><img src="img/fridge.webp" alt="A Swell fridge inside a Pilates studio"></div><div class="phones"><img src="img/app_pass.webp" alt="Swell member pass with QR code"><img src="img/app_map.webp" alt="Map of nearby Swell fridges"></div></div>
-  <ol class="how"><li><b>Join in the Swell app</b>Pick a plan, card on file.</li><li><b>Find a fridge</b>At studios, gyms, campuses and more, on a map.</li><li><b>Tap your Swell Pass</b>The door unlocks and you grab a cold shake. Auto checkout in seconds.</li><li><b>Or get boxes delivered</b>Build a 12 or 24 box of flavors and ship it to your door.</li></ol>
-  <div class="plans"><div class="plan"><span>Plan 1</span><b>Swell Pass</b><p>A monthly membership with 5 fridge Swells included. Extras are $4.25 instead of $5, and every $1 earns points toward a free Swell.</p></div><div class="plan"><span>Plan 2</span><b>Fridge Unlimited</b><p>One monthly price. Grab unlimited cold Swells at any Swell fridge.</p></div><div class="plan"><span>Plan 3</span><b>Box Club</b><p>A monthly fee. Order unlimited build-a-boxes to your door at member pricing, with free shipping.</p></div></div>`;
+  if (kind==="brand") return `<div class="show"><figure class="stage"><img src="img/l_sizes.webp" alt="Lovely 30g pink 14oz bottle next to Lovely 50g light-blue 16oz bottle"></figure><figure class="stage"><img src="img/l_lineup.webp" alt="Lovely lineup: Matcha, Vanilla, 50g Chocolate, Chocolate, Cookie Butter"></figure></div>
+  <div class="show"><div class="photo"><img src="img/l_reformer.webp" alt="Lovely at a reformer Pilates class" loading="lazy"></div><div class="photo"><img src="img/l_matclass.webp" alt="Lovely after a mat class" loading="lazy"></div></div>`;
+  if (kind==="fridge") return `<div class="concept"><div class="photo"><img src="img/l_studiowalk.webp" alt="Walking out of the studio with a Lovely"></div><div class="phones"><img src="img/l_pass.webp" alt="Lovely Pass with QR code"><img src="img/l_map.webp" alt="Map of nearby Lovely fridges"></div></div>
+  <ol class="how"><li><b>Join in the Lovely app</b>Pick a plan, card on file.</li><li><b>Find a fridge</b>At studios, gyms, campuses and more, on a map.</li><li><b>Tap your Lovely Pass</b>The door unlocks and you grab a cold shake. Auto checkout in seconds.</li><li><b>Or get boxes delivered</b>Build a 12 or 24 box of flavors and ship it to your door.</li></ol>
+  <div class="plans"><div class="plan"><span>Plan 1</span><b>Lovely Pass</b><p>A monthly membership with 5 fridge shakes included. Extras are $4.25 instead of $5, and every $1 earns points toward a free shake.</p></div><div class="plan"><span>Plan 2</span><b>Fridge Unlimited</b><p>One monthly price. Grab unlimited cold shakes at any Lovely fridge.</p></div><div class="plan"><span>Plan 3</span><b>Box Club</b><p>A monthly fee. Order unlimited build-a-boxes to your door at member pricing, with free shipping.</p></div></div>`;
   return "";
 }
 
@@ -439,10 +440,10 @@ function render(){
   if (submitted) return renderDone();
   if (step < 0){
     app.innerHTML = `<section class="screen hero">
-      <div><p class="kick">Swell taste panel</p><h1>Help us build the shake <em>you'd actually want.</em></h1></div>
-      <p class="lead">Swell is the protein shake you actually want to drink: premium, and it tastes like a milkshake. Before we launch, we want your honest take on the look, the taste you're after, the price, and where you'd want to grab one.</p>
+      <div><p class="kick">Lovely taste panel</p><h1>Help us build the shake <em>you'd actually want.</em></h1></div>
+      <p class="lead">Lovely is the protein shake you actually want to drink: premium, and it tastes like a milkshake. Before we launch, we want your honest take on the look, the taste you're after, the price, and where you'd want to grab one.</p>
       <div class="facts"><span>About 7 minutes</span><span>10 quick parts</span><span>Anonymous</span><span>Free sample for early access</span></div>
-      <div class="stage lineup"><img src="img/s30_matcha.webp" alt=""><img src="img/s30_van.webp" alt=""><img src="img/s50_choc.webp" alt="Swell bottles: pink 30g and light-blue 50g"><img src="img/s30_choc.webp" alt=""><img src="img/s30_cbutter.webp" alt=""></div>
+      <div class="stage"><img src="img/l_lineup.webp" alt="Lovely bottles: pink 30g and light-blue 50g in five flavors"></div>
       <div><button class="btn big" id="start" type="button">${Object.keys(A).length?"Pick up where you left off":"Start the survey"} →</button></div>
     </section>`;
     $("#start").onclick = () => go(0);
@@ -555,8 +556,8 @@ async function submit(){
 function renderDone(){
   $("#app").innerHTML = `<section class="screen done-card">
     <p class="kick">All done</p><h1>Thank you, <em>truly.</em></h1>
-    <p class="lead" style="color:var(--muted);max-width:30em">Your answers go straight into how Swell looks, tastes and gets to you. ${A.email?"We'll email you when early access opens.":""}</p>
-    <div class="stage"><img src="img/s30_van.webp" alt=""><img src="img/s50_choc.webp" alt=""></div>
+    <p class="lead" style="color:var(--muted);max-width:30em">Your answers go straight into how Lovely looks, tastes and gets to you. ${A.email?"We'll email you when early access opens.":""}</p>
+    <div class="stage"><img src="img/l_sizes.webp" alt=""></div>
     ${window.__swellPreview?'<p class="small">Preview mode: this response was not recorded. Connect the Google Sheet to start collecting.</p>':""}
   </section>`;
   header();

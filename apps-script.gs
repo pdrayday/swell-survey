@@ -1,7 +1,7 @@
 /**
- * Swell survey → Google Sheet
+ * Lovely survey → Google Sheet
  *
- * 1. Make a new Google Sheet (name it "Swell Survey Responses").
+ * 1. Make a new Google Sheet (name it "Lovely Survey Responses").
  * 2. Extensions → Apps Script. Delete what's there, paste this whole file, Save.
  * 3. Deploy → New deployment → type "Web app".
  *      Execute as: Me      Who has access: Anyone
@@ -29,5 +29,5 @@ function doPost(e) {
 }
 
 function doGet() {
-  return ContentService.createTextOutput("Swell survey endpoint is live.");
+  return ContentService.createTextOutput("Lovely survey endpoint is live.");
 }
