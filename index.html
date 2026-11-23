@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Lovely Taste Panel</title>
-<meta name="description" content="A 7-minute survey to help shape Lovely before launch.">
+<meta name="description" content="A 5-minute survey to help shape Lovely before launch.">
 <meta name="theme-color" content="#f4cddb">
 <meta name="color-scheme" content="only light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -381,7 +381,7 @@ function header(){
   const on = tabs.children[step]; if (on) on.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
   const pct = step < 0 ? 0 : submitted ? 100 : Math.round((step)/(S.length)*100);
   $("#bar").style.width = pct + "%";
-  $("#count").textContent = step < 0 ? "About 7 minutes" : submitted ? "Done" : `${step+1} of ${S.length}`;
+  $("#count").textContent = step < 0 ? "About 5 minutes" : submitted ? "Done" : `${step+1} of ${S.length}`;
 }
 
 /* ---------- renderers ---------- */
@@ -441,7 +441,7 @@ function render(){
     app.innerHTML = `<section class="screen hero">
       <div><p class="kick">Lovely taste panel</p><h1>Help us build the shake <em>you'd actually want.</em></h1></div>
       <p class="lead">Lovely is the protein shake you actually want to drink: premium, and it tastes like a milkshake. Before we launch, we want your honest take on the look, the taste you're after, the price, and where you'd want to grab one.</p>
-      <div class="facts"><span>About 7 minutes</span><span>10 quick parts</span><span>Anonymous</span><span>Free sample for early access</span></div>
+      <div class="facts"><span>About 5 minutes</span><span>10 quick parts</span><span>Anonymous</span><span>Free sample for early access</span></div>
       <div class="stage"><img src="img/l_lineup.webp" alt="Lovely bottles: pink 30g and light-blue 50g in five flavors"></div>
       <div><button class="btn big" id="start" type="button">${Object.keys(A).length?"Pick up where you left off":"Start the survey"} →</button></div>
     </section>`;
