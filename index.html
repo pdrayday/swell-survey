@@ -43,8 +43,8 @@ p{margin:0}
 :focus-visible{outline:2.5px solid #fff;outline-offset:3px;border-radius:10px}
 
 /* header + section tabs (deck-style) */
-body::before{content:"";position:fixed;z-index:60;left:0;right:0;top:0;height:env(safe-area-inset-top,0px);background:var(--bg)}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(244,205,219,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+
+header.top{position:relative;padding-top:env(safe-area-inset-top,0px);background:rgba(244,205,219,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 header.top .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;height:64px;padding-inline:clamp(14px,3vw,28px)}
 .logo{flex:none;display:flex}.logo img{height:40px;width:auto;filter:brightness(0) invert(1)}
 .tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}
