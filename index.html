@@ -75,6 +75,7 @@ main{padding-block:clamp(26px,5vw,56px) 40px}
 .hero .stage.lineup{display:flex;justify-content:center;align-items:flex-end;gap:clamp(4px,1.5vw,14px);padding:34px 12px 0}
 .hero .stage.lineup img{height:clamp(170px,30vw,300px);width:auto}
 .hero .stage.lineup img:nth-child(3){height:clamp(195px,34vw,340px)}
+.qpics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;max-width:520px}.qpics figure{margin:0;border-radius:16px;overflow:hidden;background:var(--surface)}.qpics img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}.qpics figcaption{font:600 13px/1.3 var(--body);padding:8px 10px;text-align:center}
 .facts{display:flex;flex-wrap:wrap;gap:10px}
 .facts span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:var(--surface);font:600 14px/1 var(--body)}
 .facts span::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
@@ -318,6 +319,7 @@ const S = [
     ["ing_protein","High protein (30g+)"],["ing_lowcal","Low calories"],["ing_lowsugar","Low sugar"],["ing_noartificial","No artificial sweeteners"],["ing_short","Short, simple ingredient list"],["ing_lactose","Lactose-free (no bloating)"],["ing_collagen","Collagen peptides","hair, skin, nails, joints"],["ing_iron","Iron + vitamin C","energy, fewer tired days"],["ing_probiotic","Probiotics","gut health"],["ing_creamy","Thick, creamy texture"],["ing_shelf","Doesn't need the fridge until opened"]]},
   {id:"avoid", t:"Any of these make you put a shake back on the shelf?", h:"Check all that apply.", type:"multi", req:1, o:["High calories (200+)","5g+ total sugar","Any added sugar","Less than 15g protein","Artificial sweeteners (sucralose, ace-K)","Carrageenan","Gums","Seed oils","Dairy or lactose","Long ingredient list","None of these"]},
   {id:"protein_amt", t:"How much protein would you want in one bottle?", h:"Check all that apply.", type:"multi", req:1, o:["15–20g","25–30g","40g","50g","Depends on the day"]},
+  {id:"creatine_form", t:"Lovely is also making creatine. How would you rather take it?", h:"Sticks mix into a shake or water. Gummies you just chew.", type:"single", req:1, pics:[["img/l_sticks.webp","Creatine + Electrolytes sticks"],["img/l_gummies.webp","Creatine gummies"]], o:["Stick packets","Gummies","Both","Neither / I don't take creatine"]},
  ]},
  {id:"look", tab:"Look test", kick:"Part 4 of 10", title:"Judge them by <em>the look</em>", sub:"Don't think about taste, price or ingredients. Just the packaging.", qs:[
   {id:"look_pick", t:"Based ONLY on how it looks, which one would you buy?", type:"imgpick", req:1, items:"look"},
@@ -426,7 +428,7 @@ function renderQ(q, n){
   } else if (T==="specpick"){
     b = `<div class="specs">${SPEC_ORDER.map((k,i)=>{const s=SHAKES[k];return `<button type="button" class="spec" aria-pressed="${A[q.id]===k}" data-pick="${q.id}" data-v="${k}"><span class="ck"></span><h4>Shake ${LETTERS[i]}</h4><dl><div><dt>Size</dt><dd>${esc(s.size)}</dd></div><div><dt>Calories</dt><dd>${esc(s.cal)}</dd></div><div><dt>Protein</dt><dd>${esc(s.pro)}</dd></div><div><dt>Sugar</dt><dd>${esc(s.sug)}</dd></div><div><dt>Sweetened with</dt><dd>${esc(s.swt)}</dd></div><div><dt>Extras</dt><dd>${esc(s.extra)}</dd></div></dl></button>`;}).join("")}</div>`;
   }
-  return `<div class="q" id="q-${q.id}" data-qid="${q.id}"><div class="qt"><span class="num">${n}</span>${esc(L(q.t))}${q.req?' <span class="req" aria-label="required">*</span>':""}</div>${q.h?`<p class="qh">${esc(L(q.h))}</p>`:""}<div class="qb">${b}</div><p class="em" hidden></p></div>`;
+  return `<div class="q" id="q-${q.id}" data-qid="${q.id}"><div class="qt"><span class="num">${n}</span>${esc(L(q.t))}${q.req?' <span class="req" aria-label="required">*</span>':""}</div>${q.h?`<p class="qh">${esc(L(q.h))}</p>`:""}<div class="qb">${q.pics?`<div class="qpics">${q.pics.map(p=>`<figure><img src="${p[0]}" alt="${esc(p[1])}" loading="lazy"><figcaption>${esc(p[1])}</figcaption></figure>`).join("")}</div>`:""}${b}</div><p class="em" hidden></p></div>`;
 }
 
 function symbol(){ try { return new Intl.NumberFormat(undefined,{style:"currency",currency:cur().code}).formatToParts(0).find(p=>p.type==="currency").value; } catch(e){ return "$"; } }
